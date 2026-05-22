@@ -1,2 +1,900 @@
-# Velune
-Love
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velune Aesthetic Portfolio Website</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+body{background:linear-gradient(180deg,#130a16 0%,#291a29 50%,#462c43 100%);background-attachment:fixed;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:20px}
+.web-container{width:100%;max-width:950px;background-color:#251c2a;border-radius:16px;box-shadow:0 0 20px rgba(255,121,198,.25);overflow:hidden;border:2px solid #ff79c6}
+.header-banner{background-color:#1e1622;height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.header-title{font-size:3.5rem;color:#fff;font-family:'Georgia',serif;font-style:italic;text-shadow:0 0 10px rgba(255,204,213,.4)}
+.navbar{background-color:#1a151d;padding:10px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.navbar button{background-color:#251c2a;color:#ffccd5;border:1px solid #4a3556;padding:6px 18px;border-radius:6px;font-size:.9rem;font-weight:500;cursor:pointer;transition:all .2s ease}
+.navbar button:hover,.navbar button.active{background-color:#382541;color:#fff;border-color:#ff79c6;transform:translateY(-1px)}
+.lace-divider{height:25px;background-color:#211826;border-bottom:4px dotted #4a3556}
+.welcome-ticker{text-align:center;font-size:.8rem;color:#b399b9;letter-spacing:1px;padding:8px;background-color:#251c2a;border-bottom:1px dashed #4a3556}
+.page-section{display:none;padding:20px}.page-section.active-page{display:block}
+
+/* HOME */
+.main-content{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:15px}
+@media(max-width:768px){.main-content{grid-template-columns:1fr}}
+.widget{background-color:#1e1622;border:2px solid #ff79c6;border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 0 12px rgba(255,121,198,.3);position:relative}
+body.admin-mode .widget.editable-widget{cursor:pointer;transition:.2s}
+body.admin-mode .widget.editable-widget:hover{border-color:#bd93f9;box-shadow:0 0 15px rgba(189,147,249,.6)}
+.widget-title{background:#3c2947;color:#ffccd5;font-size:.85rem;text-align:center;padding:4px;border-radius:20px;margin-bottom:12px;font-weight:bold;letter-spacing:.5px}
+.profile-img-container{width:130px;height:130px;border-radius:50%;border:3px dashed #ff79c6;margin:0 auto 10px;padding:5px;display:flex;justify-content:center;align-items:center;background-color:#1a151d}
+.profile-img{width:100%;height:100%;border-radius:50%;background-color:#3c2947;object-fit:cover}
+.profile-info{text-align:center;color:#d1b3d6;font-size:.85rem;line-height:1.6}
+.login-link{color:#ffccd5;text-decoration:underline;font-weight:bold;cursor:pointer;background:none;border:none;font-size:.85rem;padding:0}
+.welcome-text{color:#b399b9;font-size:.85rem;line-height:1.5;text-align:center}
+.message-box{border:2px dashed #ff79c6;border-radius:8px;padding:10px;font-size:.8rem;color:#d1b3d6;background-color:#1a151d;white-space:pre-wrap}
+.update-item{display:flex;justify-content:space-between;font-size:.75rem;color:#b399b9;padding:4px 0;border-bottom:1px dashed #3c2947}
+.stamp-box{border:1px solid #4a3556;padding:10px;text-align:center;background-color:#1a151d;border-radius:8px}
+
+/* SOCIAL TEXT LINKS */
+.profile-socials{display:flex;justify-content:center;gap:5px;margin-top:10px;flex-wrap:wrap;font-size:0.75rem;color:#b399b9}
+.social-text-link{color:#ffccd5;text-decoration:none;transition:0.2s}
+.social-text-link:hover{text-decoration:underline;color:#fff}
+
+/* SHARED GRID */
+.portfolio-header-zone{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:2px dashed #4a3556;padding-bottom:10px}
+.portfolio-page-title{color:#ffccd5;font-size:1.5rem;font-family:'Georgia',serif}
+.category-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.category-btn{background-color:#1e1622;color:#b399b9;border:1px dashed #ff79c6;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:.85rem;transition:.2s}
+.category-btn:hover,.category-btn.active-tab{background-color:#ff79c6;color:#150f1a;font-weight:bold;border-style:solid}
+.portfolio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:15px}
+.portfolio-card{background-color:#1e1622;border:1px solid #4a3556;border-radius:8px;padding:8px;text-align:center;box-shadow:0 4px 8px rgba(0,0,0,.2);position:relative;transition:.2s;cursor:pointer}
+.portfolio-card:hover{transform:scale(1.02);border-color:#ff79c6}
+.portfolio-card img{width:100%;height:160px;object-fit:cover;border-radius:6px;background-color:#251c2a;margin-bottom:8px}
+.portfolio-card p{color:#ffccd5;font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-price{color:#ff79c6!important;font-size:.85rem!important;font-weight:bold;margin-top:4px}
+.card-cats{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:5px}
+.card-cat-tag{background:#3c2947;color:#b399b9;font-size:.65rem;padding:1px 6px;border-radius:8px;border:1px solid #4a3556}
+.comm-status-badge{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:10px;margin-top:4px;font-weight:bold}
+.badge-open{background:#50fa7b33;color:#50fa7b;border:1px solid #50fa7b}
+.badge-closed{background:#ff555533;color:#ff5555;border:1px solid #ff5555}
+.badge-waitlist{background:#ffb86c33;color:#ffb86c;border:1px solid #ffb86c}
+.admin-action-btn{background-color:#3c2947;color:#ff79c6;border:1px solid #ff79c6;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.8rem;display:none}
+body.admin-mode .admin-action-btn{display:inline-block}
+.admin-action-btn:hover{background-color:#ff79c6;color:#150f1a}
+.delete-card-btn{position:absolute;top:5px;right:5px;background-color:#ff5555;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;display:none;font-weight:bold;z-index:2}
+.edit-card-btn{position:absolute;top:5px;right:30px;background-color:#bd93f9;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;display:none;font-weight:bold;z-index:2}
+body.admin-mode .delete-card-btn, body.admin-mode .edit-card-btn{display:block}
+
+/* LIGHTBOX */
+.lightbox-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:30000;justify-content:center;align-items:center;flex-direction:column;padding:20px}
+.lightbox-overlay.active{display:flex}
+.lightbox-content-wrapper{position:relative;display:flex;align-items:center;justify-content:center;width:100%;max-width:900px}
+.lightbox-img{max-width:80vw;max-height:80vh;border-radius:10px;border:2px solid #ff79c6;box-shadow:0 0 40px rgba(255,121,198,.4);object-fit:contain}
+.lightbox-title{color:#ffccd5;font-size:1rem;margin-top:14px;text-align:center;font-family:'Georgia',serif}
+.lightbox-extra{color:#b399b9;font-size:.85rem;margin-top:6px}
+.lightbox-close{position:fixed;top:20px;right:28px;font-size:2rem;color:#ff79c6;cursor:pointer;background:none;border:none;font-weight:bold;z-index:30001}
+.lightbox-close:hover{color:#fff}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);font-size:3.5rem;color:#ff79c6;cursor:pointer;background:none;border:none;padding:10px;z-index:30001;text-shadow:0 0 10px rgba(255,121,198,.6);transition:.2s}
+.lightbox-nav:hover{color:#fff;transform:translateY(-50%) scale(1.1)}
+#lightboxPrev{left:-60px}#lightboxNext{right:-60px}
+@media(max-width:1024px){#lightboxPrev{left:10px}#lightboxNext{right:10px}.lightbox-img{max-width:70vw}}
+
+/* ITEM & CHAR DETAIL NAV */
+.item-detail-nav, .char-nav-btn{position:absolute;top:50%;transform:translateY(-50%);font-size:3rem;color:#ff79c6;cursor:pointer;background:none;border:none;display:flex;justify-content:center;align-items:center;z-index:100;transition:.2s;text-shadow:0 0 10px rgba(255,204,213,.5)}
+.item-detail-nav:hover, .char-nav-btn:hover{color:#fff;transform:translateY(-50%) scale(1.1)}
+#itemNavPrev, #charNavPrev{left:-60px}#itemNavNext, #charNavNext{right:-60px}
+@media(max-width:768px){#itemNavPrev, #charNavPrev{left:-10px}#itemNavNext, #charNavNext{right:-10px}}
+
+/* GALLERY NAV (INNER) */
+.gallery-nav-btn{background:none; color:#ff79c6; border:none; font-size:3rem; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:5; transition:.2s; text-shadow:0 0 8px rgba(255,121,198,0.6)}
+.gallery-nav-btn:hover{color:#fff}
+#galNavPrev{margin-right:10px}#galNavNext{margin-left:10px}
+
+/* CHARACTER GRID */
+.char-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:18px}
+.char-card{background-color:#1e1622;border:2px solid #4a3556;border-radius:12px;padding:12px;text-align:center;transition:.2s;position:relative;cursor:pointer}
+.char-card:hover{border-color:#ff79c6;box-shadow:0 0 14px rgba(255,121,198,.3);transform:translateY(-2px)}
+.char-card img{width:100%;height:175px;object-fit:cover;border-radius:8px;margin-bottom:10px}
+.char-name{color:#ffccd5;font-size:.95rem;font-weight:bold;margin-bottom:3px}
+.char-species{color:#b399b9;font-size:.75rem;margin-bottom:6px}
+.char-tags{display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+.char-tag{background:#3c2947;color:#ffccd5;font-size:.7rem;padding:2px 8px;border-radius:10px;border:1px solid #4a3556}
+
+/* CHARACTER PROFILE PANEL */
+.char-profile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:10001;justify-content:center;align-items:center;padding:20px}
+.char-profile-overlay.active{display:flex}
+.char-profile-panel{background-color:#1e1622;border:2px solid #ff79c6;border-radius:16px;width:100%;max-width:720px;max-height:90vh;overflow-y:auto;box-shadow:0 0 40px rgba(255,121,198,.4);position:relative;animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.char-nav-btn { z-index: 10002; }
+.char-profile-header{background:linear-gradient(135deg,#2e1f36 0%,#1e1622 100%);border-bottom:2px dashed #4a3556;padding:24px;display:flex;gap:20px;align-items:flex-start;position:relative}
+.char-profile-img{width:130px;height:130px;border-radius:12px;object-fit:cover;border:3px solid #ff79c6;flex-shrink:0;box-shadow:0 0 16px rgba(255,121,198,.3);cursor:pointer}
+.char-profile-info{flex:1}
+.char-profile-name{color:#ffccd5;font-size:1.6rem;font-family:'Georgia',serif;margin-bottom:4px}
+.char-profile-species{color:#b399b9;font-size:.85rem;margin-bottom:8px}
+.char-cats-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.char-profile-cat{display:inline-block;background:#3c2947;color:#ff79c6;font-size:.75rem;padding:3px 10px;border-radius:12px;border:1px solid #ff79c6}
+.char-profile-close{position:absolute;top:14px;right:16px;font-size:1.4rem;color:#ff79c6;cursor:pointer;background:none;border:none;font-weight:bold}
+.char-profile-close:hover{color:#fff}
+.char-profile-body{padding:20px 24px}
+.char-section-title{color:#ff79c6;font-size:.85rem;font-weight:bold;letter-spacing:1px;text-transform:uppercase;border-bottom:1px dashed #4a3556;padding-bottom:5px;margin:18px 0 12px;display:flex;align-items:center;gap:8px}
+.edit-inline-btn{background:#3c2947;color:#bd93f9;border:1px dashed #bd93f9;font-size:.7rem;padding:2px 8px;border-radius:10px;cursor:pointer;display:none}
+body.admin-mode .edit-inline-btn{display:inline-block}
+.edit-inline-btn:hover{background:#bd93f9;color:#150f1a}
+.char-profile-desc{color:#d1b3d6;font-size:.88rem;line-height:1.7;white-space:pre-wrap}
+.char-stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.char-stat-item{background:#251c2a;border-radius:8px;padding:10px 14px;border:1px solid #3c2947}
+.char-stat-label{color:#b399b9;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.char-stat-value{color:#ffccd5;font-size:.9rem;font-weight:bold}
+.char-gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.char-gallery-img{width:100%;height:100px;object-fit:cover;border-radius:8px;border:1px solid #4a3556;cursor:pointer;transition:.2s;position:relative}
+.char-gallery-img:hover{border-color:#ff79c6;transform:scale(1.04)}
+.gallery-item-wrap{position:relative;display:inline-block;width:100%}
+.del-gallery-btn{position:absolute;top:4px;right:4px;background:#ff5555;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:9px;cursor:pointer;display:none;font-weight:bold;z-index:3;line-height:18px}
+body.admin-mode .del-gallery-btn{display:block}
+
+/* TOS SECTION */
+.tos-box{background:#1a151d;border:1px solid #4a3556;border-radius:10px;padding:14px}
+.tos-badge{display:inline-block;font-size:.75rem;padding:3px 10px;border-radius:12px;font-weight:bold;margin-right:6px;margin-bottom:4px}
+.tos-standard{background:#bd93f933;color:#bd93f9;border:1px solid #bd93f9}
+.tos-commercial{background:#ffb86c33;color:#ffb86c;border:1px solid #ffb86c}
+.tos-exclusive{background:#ff555533;color:#ff5555;border:1px solid #ff5555}
+.tos-text{color:#d1b3d6;font-size:.83rem;line-height:1.7;margin-top:8px;white-space:pre-wrap}
+.tos-image-display{width:100%;max-width:400px;border-radius:8px;margin-top:10px;border:1px solid #ff79c6;cursor:pointer}
+
+/* POPUP */
+.popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20000}
+.admin-popup{background-color:#211926;border:3px solid #ff79c6;border-radius:12px;width:340px;padding:20px;box-shadow:0 0 25px rgba(255,121,198,.5);text-align:center;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:20001;max-height:90vh;overflow-y:auto}
+.popup-header{background-color:#ff79c6;margin:-20px -20px 20px -20px;padding:8px;border-top-left-radius:8px;border-top-right-radius:8px;color:#150f1a;font-weight:bold;font-size:14px;text-transform:uppercase;letter-spacing:1px;position:relative}
+.close-popup-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#150f1a;font-weight:bold;cursor:pointer;font-size:14px}
+.popup-title{color:#ff79c6;font-size:22px;font-weight:900;margin-bottom:15px;letter-spacing:1px}
+.popup-input,.popup-select{width:90%;padding:10px;border:2px solid #44475a;border-radius:8px;font-size:14px;color:#ff79c6;background-color:#282a36;outline:none;margin-bottom:12px}
+.popup-textarea{width:90%;height:80px;padding:10px;border:2px solid #44475a;border-radius:8px;font-size:14px;color:#ffccd5;background-color:#282a36;outline:none;margin-bottom:12px;resize:vertical}
+.popup-btn{background-color:#ff79c6;border:none;color:#150f1a;min-width:100px;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:bold;margin:5px}
+.popup-btn:hover{background-color:#bd93f9}
+.preview-box{width:110px;height:110px;border:2px dashed #ff79c6;margin:0 auto 15px;display:flex;justify-content:center;align-items:center;background-color:#1a151d;border-radius:8px;overflow:hidden}
+.preview-box img{width:100%;height:100%;object-fit:cover}
+.preview-label{color:#ffccd5;font-size:11px;display:block;margin-bottom:5px;text-align:left;padding-left:18px}
+
+.cat-checkbox-list{display:flex;flex-wrap:wrap;gap:6px;width:90%;margin:0 auto 12px;text-align:left}
+.cat-checkbox-list label{display:flex;align-items:center;gap:5px;color:#ffccd5;font-size:.82rem;cursor:pointer;background:#282a36;padding:4px 10px;border-radius:10px;border:1px solid #44475a}
+.cat-checkbox-list label:hover{border-color:#ff79c6}
+.cat-checkbox-list input[type=checkbox]{accent-color:#ff79c6}
+</style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightboxOnBg(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <div class="lightbox-content-wrapper">
+    <button class="lightbox-nav" id="lightboxPrev" onclick="lightboxNav(-1)">‹</button>
+    <div style="text-align:center;">
+      <img class="lightbox-img" id="lightboxImg" src="" alt="" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Load+Error'">
+      <div class="lightbox-title" id="lightboxTitle"></div>
+      <div class="lightbox-extra" id="lightboxExtra"></div>
+    </div>
+    <button class="lightbox-nav" id="lightboxNext" onclick="lightboxNav(1)">›</button>
+  </div>
+</div>
+
+<!-- ITEM DETAIL PANEL -->
+<div class="char-profile-overlay" id="itemDetailOverlay" onclick="closeItemDetailOnBg(event)">
+  <div style="position:relative; width:100%; max-width:650px; display:flex; justify-content:center; align-items:center;">
+    <button class="item-detail-nav" id="itemNavPrev" onclick="navItemDetail(-1)">‹</button>
+    <button class="item-detail-nav" id="itemNavNext" onclick="navItemDetail(1)">›</button>
+
+    <div class="char-profile-panel" style="text-align:center; padding: 24px;">
+      <button class="char-profile-close" onclick="closeItemDetail()">✕</button>
+      <div style="display:flex; align-items:center; justify-content:center; margin-bottom: 20px;">
+        <button class="gallery-nav-btn" id="galNavPrev" onclick="navGalleryDetail(-1)">‹</button>
+        <img id="detailMainImg" src="" alt="" style="max-width:80%; max-height:450px; border-radius:12px; border:3px solid #ff79c6; cursor:pointer;" onclick="openDetailLightbox()" onerror="this.src='https://via.placeholder.com/400?text=Error'">
+        <button class="gallery-nav-btn" id="galNavNext" onclick="navGalleryDetail(1)">›</button>
+      </div>
+      <div style="color:#ffccd5;">
+        <div id="detailName" style="font-size:1.8rem; font-family:'Georgia',serif; margin-bottom:8px; display:flex; align-items:center; justify-content:center; gap:8px;"></div>
+        <div class="card-price" id="detailPrice" style="font-size:1.4rem; margin-bottom:15px; font-weight:bold;"></div>
+        <div class="char-section-title" style="justify-content:center;">✦ รายละเอียดงาน</div>
+        <div class="char-profile-desc" id="detailDesc" style="margin: 0 auto 10px; max-width:500px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHARACTER PROFILE PANEL -->
+<div class="char-profile-overlay" id="charProfileOverlay" onclick="closeCharProfileOnBg(event)">
+  <div style="position:relative; width:100%; max-width:720px; display:flex; justify-content:center; align-items:center;">
+    <button class="char-nav-btn" id="charNavPrev" onclick="navCharProfile(-1)">‹</button>
+    <button class="char-nav-btn" id="charNavNext" onclick="navCharProfile(1)">›</button>
+
+    <div class="char-profile-panel" id="charProfilePanel">
+      <div class="char-profile-header">
+        <img class="char-profile-img" id="cpImg" src="" alt="" onclick="if(isLoggedIn)openEditCharField('img')" title="คลิกเพื่อเปลี่ยนรูป (Admin)" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="char-profile-info">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div class="char-profile-name" id="cpName"></div>
+            <button class="edit-inline-btn" onclick="openEditCharField('name')">✏️</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+            <div class="char-profile-species" id="cpSpecies" style="margin-bottom:0"></div>
+            <button class="edit-inline-btn" onclick="openEditCharField('species_header')">✏️</button>
+          </div>
+          <div class="char-cats-row" id="cpCatsRow"></div>
+          <div class="char-profile-tags" id="cpTags" style="display:flex;flex-wrap:wrap;gap:5px"></div>
+        </div>
+        <button class="char-profile-close" onclick="closeCharProfile()">✕</button>
+      </div>
+      <div class="char-profile-body">
+        <div id="cpStatsSection">
+          <div class="char-section-title">✦ Character Info
+            <button class="edit-inline-btn" onclick="openEditCharField('stats')">✏️ แก้ไข Stats</button>
+          </div>
+          <div class="char-stat-grid" id="cpStatGrid"></div>
+        </div>
+        <div id="cpDescSection">
+          <div class="char-section-title">✦ About
+            <button class="edit-inline-btn" onclick="openEditCharField('desc')">✏️ แก้ไข</button>
+          </div>
+          <div class="char-profile-desc" id="cpDesc">no description yet...</div>
+        </div>
+        <div id="cpTosSection" style="display:none">
+          <div class="char-section-title">✦ Terms of Use
+            <button class="edit-inline-btn" onclick="openEditCharField('tos')">✏️ แก้ไข</button>
+          </div>
+          <div class="tos-box" id="cpTosBox"></div>
+        </div>
+        <div id="cpGallerySection">
+          <div class="char-section-title">✦ Gallery
+            <button class="edit-inline-btn" onclick="openCharGalleryAdd()">➕ เพิ่มรูป</button>
+          </div>
+          <div class="char-gallery-grid" id="cpGallery"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="globalOverlay" onclick="closeAllPopups()"></div>
+
+<div class="web-container">
+  <div class="header-banner"><h1 class="header-title">Ve Lune</h1></div>
+  <div class="navbar">
+    <button id="nav-home" class="active" onclick="switchPage('home')">Home</button>
+    <button id="nav-portfolio" onclick="switchPage('portfolio')">Portfolio</button>
+    <button id="nav-character" onclick="switchPage('character')">Character</button>
+    <button id="nav-commission" onclick="switchPage('commission')">Commission</button>
+    <button id="nav-shop" onclick="switchPage('shop')">Shop</button>
+  </div>
+  <div class="lace-divider"></div>
+  <div class="welcome-ticker">Welcome to my site "‎𓂂𓏸♡‧₊(⸝⸝˶ᵔ⩊ᵔ˶⸝⸝)   ₊˚⋆𖧷 ˚｡  ✮⋆˙"</div>
+
+  <!-- HOME -->
+  <div id="page-home" class="page-section active-page">
+    <div class="main-content">
+      <div>
+        <div class="widget editable-widget" onclick="openWidgetEditor('profile')">
+          <div class="widget-title">🎀 Profile</div>
+          <div class="profile-img-container"><img id="profileImg" class="profile-img" src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=150&auto=format&fit=crop" alt="Profile" onerror="this.src='https://via.placeholder.com/150'"></div>
+          <div class="profile-info">
+            <p><button id="loginBtnLabel" class="login-link" onclick="openAdmin(event)">Ve Lune</button> | artist | <span>about</span></p>
+            <br>
+            <div id="profileStatusZone">
+              <p>🧸 status: doing commissions</p>
+              <p>☁️ feeling: tired</p>
+            </div>
+            <div class="profile-socials editable-widget" onclick="event.stopPropagation(); if(isLoggedIn) openSocialEditor()" id="profileSocialIcons"></div>
+          </div>
+        </div>
+        <div class="widget editable-widget" onclick="openWidgetEditor('message')">
+          <div class="widget-title" id="messageTitle">💬 Message</div>
+          <div id="messageContentText" class="message-box"><strong>22/10 12:12</strong> grinding commissions! i wanna clear my to-do list so i can have a little break~</div>
+        </div>
+      </div>
+      <div>
+        <div class="widget editable-widget" onclick="openWidgetEditor('tos')">
+          <div class="widget-title" id="tosTitle">📜 Working Agreement</div>
+          <div id="tosContentText" class="welcome-text">ใส่ข้อตกลงในการทำงานที่นี่...</div>
+        </div>
+        <div class="widget editable-widget" onclick="openWidgetEditor('welcome')">
+          <div class="widget-title" id="welcomeTitle">🤍 Welcome</div>
+          <div id="welcomeContentText" class="welcome-text"><p>Welcome to my website! This is a virtual home. Make yourself at home!</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="widget editable-widget" onclick="openWidgetEditor('updates')">
+          <div class="widget-title" id="updatesTitle">🐚 Updates</div>
+          <div id="updatesContentText">
+            <div class="update-item"><span>23 Oct</span><span>site is alive</span></div>
+            <div class="update-item"><span>30 Sep</span><span>update on comm</span></div>
+            <div class="update-item"><span>25 Sep</span><span>site is online</span></div>
+          </div>
+        </div>
+        <div class="widget editable-widget" onclick="openWidgetEditor('stamp')">
+          <div class="widget-title">⭐ Listings</div>
+          <div class="stamp-box">
+            <p id="stampTitleText" style="font-size:.8rem;color:#b399b9;margin-bottom:5px">Sticker Set</p>
+            <img id="stampImg" src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=80&auto=format&fit=crop" alt="stamp" style="border-radius:4px;width:60px;height:60px;object-fit:cover" onerror="this.src='https://via.placeholder.com/80'">
+          </div>
+        </div>
+        <div class="widget editable-widget" onclick="openWidgetEditor('contact')">
+            <div class="widget-title">📞 Contact</div>
+            <div id="contactContent" class="profile-info" style="display:flex; justify-content:center; gap:5px; flex-wrap:wrap; font-size:0.75rem; color:#b399b9;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div id="page-portfolio" class="page-section">
+    <div class="portfolio-header-zone">
+      <h2 class="portfolio-page-title">My Art Portfolio</h2>
+      <div>
+        <button class="admin-action-btn" onclick="openCategoryModal('portfolio')">📁 + หมวดหมู่</button>
+        <button class="admin-action-btn" style="background-color:#ff79c6;color:#150f1a" onclick="openPhotoModal('portfolio')">🖼️ + รูปภาพ</button>
+      </div>
+    </div>
+    <div id="portfolio-catTabs" class="category-tabs"></div>
+    <div id="portfolio-grid" class="portfolio-grid"></div>
+  </div>
+
+  <!-- CHARACTER -->
+  <div id="page-character" class="page-section">
+    <div class="portfolio-header-zone">
+      <h2 class="portfolio-page-title">✨ My Characters</h2>
+      <div>
+        <button class="admin-action-btn" onclick="openCategoryModal('character')">📁 + หมวดหมู่</button>
+        <button class="admin-action-btn" style="background-color:#ff79c6;color:#150f1a" onclick="openCharModal()">🌸 + เพิ่มตัวละคร</button>
+      </div>
+    </div>
+    <div id="character-catTabs" class="category-tabs"></div>
+    <div id="charGrid" class="char-grid"></div>
+  </div>
+
+  <!-- COMMISSION -->
+  <div id="page-commission" class="page-section">
+    <div class="portfolio-header-zone">
+      <h2 class="portfolio-page-title">🎨 Commission</h2>
+      <div>
+        <button class="admin-action-btn" onclick="openCategoryModal('commission')">📁 + หมวดหมู่</button>
+        <button class="admin-action-btn" style="background-color:#ff79c6;color:#150f1a" onclick="openPhotoModal('commission')">🖼️ + เพิ่มงาน</button>
+      </div>
+    </div>
+    <div id="commission-catTabs" class="category-tabs"></div>
+    <div id="commission-grid" class="portfolio-grid"></div>
+  </div>
+
+  <!-- SHOP -->
+  <div id="page-shop" class="page-section">
+    <div class="portfolio-header-zone">
+      <h2 class="portfolio-page-title">🛍️ Shop</h2>
+      <div>
+        <button class="admin-action-btn" onclick="openCategoryModal('shop')">📁 + หมวดหมู่</button>
+        <button class="admin-action-btn" style="background-color:#ff79c6;color:#150f1a" onclick="openPhotoModal('shop')">🛒 + เพิ่มสินค้า</button>
+      </div>
+    </div>
+    <div id="shop-catTabs" class="category-tabs"></div>
+    <div id="shop-grid" class="portfolio-grid"></div>
+  </div>
+</div>
+
+<!-- POPUPS -->
+<div id="adminPanel" class="admin-popup" style="display:none">
+  <div class="popup-header">✦ Log In ✦ <button class="close-popup-btn" onclick="hidePopup('adminPanel')">X</button></div>
+  <div class="popup-title">LOGIN</div>
+  <input type="password" id="adminPassword" class="popup-input" placeholder="ใส่รหัสผ่าน...">
+  <br><button class="popup-btn" onclick="checkPassword()">➔</button>
+</div>
+
+<div id="widgetEditorPopup" class="admin-popup" style="display:none;width:380px">
+  <div class="popup-header">✦ แก้ไขกล่อง ✦ <button class="close-popup-btn" onclick="hidePopup('widgetEditorPopup')">X</button></div>
+  <div id="widgetImgPreviewBox" class="preview-box"><img id="livePreviewImg" src="" alt="พรีวิว"></div>
+  
+  <div id="commonWidgetFields">
+    <label class="preview-label" id="editorTitleLabel">🏷️ หัวข้อกล่อง (Title):</label>
+    <input type="text" id="editorTitle" class="popup-input">
+    <label class="preview-label" id="editorImgUrlLabel">🔗 ลิงก์รูปภาพ (URL):</label>
+    <input type="text" id="editorImgUrl" class="popup-input" placeholder="วางลิงก์รูปที่นี่..." oninput="autoConvertDriveLink(this.value,'livePreviewImg')">
+    <label class="preview-label">📄 แก้ไขเนื้อหา (Content):</label>
+    <textarea id="editorTextContent" class="popup-textarea" style="height:120px"></textarea>
+  </div>
+  <div id="contactFields" style="display:none; text-align:left;">
+    <label class="preview-label">Facebook Link:</label>
+    <input type="text" id="link_fb" class="popup-input">
+    <label class="preview-label">Instagram Link:</label>
+    <input type="text" id="link_ig" class="popup-input">
+    <label class="preview-label">TikTok Link:</label>
+    <input type="text" id="link_tt" class="popup-input">
+    <label class="preview-label">X Link:</label>
+    <input type="text" id="link_x" class="popup-input">
+    <label class="preview-label">Vgen Link:</label>
+    <input type="text" id="link_vgen" class="popup-input">
+  </div>
+  <br><button class="popup-btn" onclick="saveWidgetData()">บันทึก</button>
+</div>
+
+<div id="socialEditorPopup" class="admin-popup" style="display:none;width:380px">
+  <div class="popup-header">✦ โซเชียลมีเดีย ✦ <button class="close-popup-btn" onclick="hidePopup('socialEditorPopup')">X</button></div>
+  <p style="color:#ffccd5; font-size:11px; margin-bottom:10px;">ใส่ชื่อแอปและลิงก์</p>
+  <div id="socialInputsContainer" style="text-align:left;"></div>
+  <br><button class="popup-btn" onclick="saveSocialData()">บันทึก</button>
+</div>
+
+<div id="categoryModal" class="admin-popup" style="display:none">
+  <div class="popup-header">✦ จัดการหมวดหมู่ ✦ <button class="close-popup-btn" onclick="hidePopup('categoryModal')">X</button></div>
+  <div class="popup-title" style="font-size:16px">เพิ่มหมวดหมู่ใหม่</div>
+  <input type="text" id="newCatName" class="popup-input" placeholder="เช่น Chibi, Sketch...">
+  <br><button class="popup-btn" onclick="addNewCategory()">➕ เพิ่ม</button>
+  <hr style="border:1px dashed #4a3556;margin:15px 0">
+  <div class="popup-title" style="font-size:14px;color:#ff5555">ลบหมวดหมู่</div>
+  <div id="deleteCatList"></div>
+</div>
+
+<div id="photoModal" class="admin-popup" style="display:none;width:370px">
+  <div class="popup-header">✦ จัดการผลงาน ✦ <button class="close-popup-btn" onclick="hidePopup('photoModal')">X</button></div>
+  <div class="preview-box"><img id="portfolioLivePreview" src="https://via.placeholder.com/150" alt="พรีวิว"></div>
+  <label id="photoLinksLabel" class="preview-label">🖼️ ลิงก์รูปภาพ (บรรทัดละ 1 ลิงก์):</label>
+  <textarea id="photoLinksInput" class="popup-textarea" style="height:120px" placeholder="วางลิงก์รูปที่นี่..." oninput="updatePhotoModalPreview()"></textarea>
+  <div id="photoTitleGroup">
+    <label class="preview-label">ชื่อภาพ / สเกลงาน:</label>
+    <input type="text" id="photoTitleInput" class="popup-input" placeholder="ชื่อผลงาน">
+    <label class="preview-label">รายละเอียดงาน:</label>
+    <textarea id="photoDescInput" class="popup-textarea" placeholder="ใส่รายละเอียดที่นี่..."></textarea>
+  </div>
+  <label class="preview-label">เลือกหมวดหมู่ (เลือกได้หลายอัน):</label>
+  <div id="photoCatCheckboxes" class="cat-checkbox-list"></div>
+  <div id="shopPriceField" style="display:none">
+    <label class="preview-label">💰 ราคา:</label>
+    <input type="text" id="photoPriceInput" class="popup-input" placeholder="เช่น ฿150">
+  </div>
+  <div id="commStatusField" style="display:none">
+    <label class="preview-label">📌 สถานะ:</label>
+    <select id="photoStatusInput" class="popup-select">
+      <option value="open">✅ Open</option>
+      <option value="closed">❌ Closed</option>
+      <option value="waitlist">⏳ Waitlist</option>
+    </select>
+  </div>
+  <br><button class="popup-btn" onclick="saveNewPhoto()">✨ บันทึก</button>
+</div>
+
+<div id="charModal" class="admin-popup" style="display:none;width:380px">
+  <div class="popup-header">✦ เพิ่มตัวละคร ✦ <button class="close-popup-btn" onclick="hidePopup('charModal')">X</button></div>
+  <div class="preview-box"><img id="charLivePreview" src="https://via.placeholder.com/150" alt="พรีวิว"></div>
+  <label class="preview-label">🔗 ลิงก์รูปตัวละคร:</label>
+  <input type="text" id="charImgInput" class="popup-input" oninput="autoConvertDriveLink(this.value,'charLivePreview')">
+  <label class="preview-label">ชื่อตัวละคร:</label>
+  <input type="text" id="charNameInput" class="popup-input">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div><label class="preview-label">Species:</label><input type="text" id="charSpeciesInput" class="popup-input"></div>
+    <div><label class="preview-label">Birthday:</label><input type="text" id="charBirthdayInput" class="popup-input"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div><label class="preview-label">Age:</label><input type="text" id="charAgeInput" class="popup-input"></div>
+    <div><label class="preview-label">Gender:</label><input type="text" id="charGenderInput" class="popup-input"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div><label class="preview-label">Height:</label><input type="text" id="charHeightInput" class="popup-input"></div>
+    <div><label class="preview-label">Weight:</label><input type="text" id="charWeightInput" class="popup-input"></div>
+  </div>
+  <label class="preview-label">หมวดหมู่ (เลือกได้หลายอัน):</label>
+  <div id="charCatCheckboxes" class="cat-checkbox-list"></div>
+  <label class="preview-label">แท็กนิสัย (คั่น ,):</label>
+  <input type="text" id="charTagsInput" class="popup-input">
+  <label class="preview-label">คำอธิบายตัวละคร:</label>
+  <textarea id="charDescInput" class="popup-textarea" style="height:80px"></textarea>
+  <br><button class="popup-btn" onclick="saveNewChar()">🌸 บันทึก</button>
+</div>
+
+<div id="charEditFieldPopup" class="admin-popup" style="display:none;width:370px">
+  <div class="popup-header">✦ แก้ไขข้อมูลตัวละคร ✦ <button class="close-popup-btn" onclick="hidePopup('charEditFieldPopup')">X</button></div>
+  <div id="charEditFieldBody" style="margin-top:8px"></div>
+  <br><button class="popup-btn" onclick="saveCharEditField()">บันทึก</button>
+</div>
+
+<div id="charGalleryAddPopup" class="admin-popup" style="display:none;width:340px">
+  <div class="popup-header">✦ เพิ่มรูปใน Gallery ✦ <button class="close-popup-btn" onclick="hidePopup('charGalleryAddPopup')">X</button></div>
+  <div class="preview-box"><img id="charGalleryPreviewImg" src="https://via.placeholder.com/150" alt=""></div>
+  <label class="preview-label">🔗 ลิงก์รูปภาพ:</label>
+  <input type="text" id="charGalleryUrlInput" class="popup-input" oninput="autoConvertDriveLink(this.value,'charGalleryPreviewImg')">
+  <br><button class="popup-btn" onclick="saveCharGalleryImg()">➕ เพิ่มรูป</button>
+</div>
+
+<script>
+const ADMIN_PASSWORD="1234";
+let isLoggedIn=false;
+let currentEditingWidget='';
+let editingPhotoId=null;
+let currentModalPage='portfolio';
+let lightboxItems=[];let lightboxIndex=0;
+let viewingCharId=null;
+let currentEditField='';
+let currentFilteredItems = [];
+let currentItemDetailIndex = -1;
+let currentDetailPage = '';
+let currentItemGalleryIndex = 0; 
+let portfolioLightboxGallery = [];
+
+const TOS_INFO={
+  standard:{label:'🔵 สิทธิ์ปกติ',cls:'tos-standard',desc:'ใช้งานส่วนตัวได้ ไม่นำไปใช้เชิงพาณิชย์'},
+  commercial:{label:'🟠 สิทธิ์เชิงพาณิชย์',cls:'tos-commercial',desc:'ใช้งานเชิงพาณิชย์ได้ภายใต้เงื่อนไขที่กำหนด'},
+  exclusive:{label:'🔴 สิทธิ์ขาด',cls:'tos-exclusive',desc:'ผู้ถือสิทธิ์มีสิทธิ์ครอบครองและใช้งานแต่เพียงผู้เดียว'}
+};
+
+const gridPages=['portfolio','commission','shop'];
+const defaultCats={
+  portfolio:["All","Commission","Personal Art"],
+  commission:["All","Full Body","Half Body","Chibi"],
+  shop:["All","Stickers","Prints"],
+  character:["All","OC","Fursona"]
+};
+const defaultPhotos={
+  portfolio:[{id:1,cats:["Commission"],url:"https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=300",title:"",gallery:[],desc:""}],
+  commission:[{id:1,cats:["Full Body"],url:"https://images.unsplash.com/photo-1617791160536-598cf32026fb?w=300",title:"OC Commission",status:"open",gallery:[],price:"฿1,500",desc:"Sample work for full body commission."}],
+  shop:[{id:1,cats:["Stickers"],url:"https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=300",title:"Flower Sticker Pack",price:"฿150",gallery:[],desc:"Laminated stickers with waterproof material."}]
+};
+
+let pageCategories={};
+let pagePhotos={};
+gridPages.forEach(p=>{
+  pageCategories[p]=JSON.parse(localStorage.getItem(`velune_cats_${p}`))||defaultCats[p];
+  let photos=JSON.parse(localStorage.getItem(`velune_photos_${p}`))||defaultPhotos[p];
+  pagePhotos[p]=photos.map(ph=>({...ph,gallery:ph.gallery||[],desc:ph.desc||""}));
+});
+pageCategories['character']=JSON.parse(localStorage.getItem('velune_cats_character'))||defaultCats['character'];
+
+let currentActiveTabs={portfolio:"All",commission:"All",shop:"All",character:"All"};
+let characters=JSON.parse(localStorage.getItem('velune_chars'))||[{id:1,img:"https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=300",name:"Ve Lune",species:"Human / Artist",cats:["OC"],tags:["creative","tired"],gender:"Female",height:"160cm",weight:"-",age:"19 yrs",birthday:"May 22",desc:"The artist behind this website.",tos:{rights:"standard",text:"",img:""},gallery:[]}];
+
+function autoConvertDriveLink(rawUrl, previewImgId){
+  if(!rawUrl) return "";
+  let url=rawUrl.trim();
+  const driveRegex = /(?:https?:\/\/)?(?:drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=|file\/d\/)|docs\.google\.com\/file\/d\/)([a-zA-Z0-9_-]{20,})/;
+  const match = url.match(driveRegex);
+  if (match && match[1]) { url = `https://drive.google.com/uc?export=view&id=${match[1]}`; }
+  if(previewImgId){
+    const previewEl = document.getElementById(previewImgId);
+    if(previewEl) {
+        previewEl.src = url;
+        previewEl.onerror = () => { previewEl.src = 'https://via.placeholder.com/150?text=Invalid+Link'; };
+    }
+  }
+  return url;
+}
+
+function loadHomeContent() {
+  const savedProfileImg = localStorage.getItem('velune_profile_img');
+  if(savedProfileImg) document.getElementById('profileImg').src = autoConvertDriveLink(savedProfileImg);
+  if(localStorage.getItem('velune_profile_status')) document.getElementById('profileStatusZone').innerHTML=localStorage.getItem('velune_profile_status');
+  ['welcome','tos','message','updates'].forEach(key => {
+    if(localStorage.getItem(`velune_${key}_title`)) document.getElementById(`${key}Title`).innerText=localStorage.getItem(`velune_${key}_title`);
+    if(localStorage.getItem(`velune_${key}_content`)) document.getElementById(`${key==='welcome'?'welcomeContentText':(key==='tos'?'tosContentText':(key==='message'?'messageContentText':'updatesContentText'))}`).innerHTML=localStorage.getItem(`velune_${key}_content`);
+  });
+  const savedStampImg = localStorage.getItem('velune_stamp_img');
+  if(savedStampImg) document.getElementById('stampImg').src = autoConvertDriveLink(savedStampImg);
+  if(localStorage.getItem('velune_stamp_title'))document.getElementById('stampTitleText').innerText=localStorage.getItem('velune_stamp_title');
+  renderHomeSocials();
+  renderContactLinks();
+}
+
+function renderHomeSocials() {
+  const container = document.getElementById('profileSocialIcons');
+  if(!container) return;
+  const socials = JSON.parse(localStorage.getItem('velune_socials') || '[]');
+  container.innerHTML = socials.map((s, idx) => {
+    if(s.name && s.link) return `<a href="${s.link}" target="_blank" class="social-text-link">${s.name}</a>${idx < socials.length - 1 ? ' | ' : ''}`;
+    return '';
+  }).join('');
+}
+
+function renderContactLinks() {
+  const container = document.getElementById('contactContent');
+  if(!container) return;
+  const links = JSON.parse(localStorage.getItem('velune_contact_links') || '{}');
+  const labels = {fb:'Facebook', ig:'Instagram', tt:'TikTok', x:'X', vgen:'Vgen'};
+  let html = Object.keys(labels).filter(k => links[k]).map(k => `<a href="${links[k]}" target="_blank" class="social-text-link">${labels[k]}</a>`).join(' | ');
+  container.innerHTML = html || 'No contacts set';
+}
+
+window.onload=function(){
+  loadHomeContent();
+  gridPages.forEach(p=>{renderCategoryTabs(p);renderPhotoGrid(p);});
+  renderCharCatTabs();renderCharGrid();
+  document.addEventListener('keydown',e=>{
+    if(document.getElementById('lightboxOverlay').classList.contains('active')){
+        if(e.key==='ArrowLeft')lightboxNav(-1); if(e.key==='ArrowRight')lightboxNav(1); if(e.key==='Escape')closeLightbox();
+    } else if(document.getElementById('itemDetailOverlay').classList.contains('active')){
+        if(e.key==='ArrowLeft')navItemDetail(-1); if(e.key==='ArrowRight')navItemDetail(1); if(e.key==='Escape')closeItemDetail();
+    } else if(document.getElementById('charProfileOverlay').classList.contains('active')){
+        if(e.key==='ArrowLeft')navCharProfile(-1); if(e.key==='ArrowRight')navCharProfile(1); if(e.key==='Escape')closeCharProfile();
+    }
+  });
+};
+
+function switchPage(p){
+  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active-page'));
+  document.querySelectorAll('.navbar button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`page-${p}`).classList.add('active-page');
+  const b=document.getElementById(`nav-${p}`);if(b)b.classList.add('active');
+}
+
+function openAdmin(event){
+  event.stopPropagation();
+  if(isLoggedIn){
+    if(confirm("ออกจากระบบแอดมินไหมจ้ะ?")){ isLoggedIn=false;document.body.classList.remove('admin-mode');document.getElementById('loginBtnLabel').innerText="Ve Lune"; }
+    return;
+  }
+  document.getElementById('adminPassword').value=''; showPopup('adminPanel');
+}
+
+function checkPassword(){
+  if(document.getElementById('adminPassword').value===ADMIN_PASSWORD){
+    isLoggedIn=true;document.body.classList.add('admin-mode');document.getElementById('loginBtnLabel').innerText="Ve Lune 🔒 (Admin)";
+    hidePopup('adminPanel'); gridPages.forEach(p=>{renderCategoryTabs(p);renderPhotoGrid(p);});renderCharGrid();
+  }else alert('รหัสผ่านไม่ถูกต้อง!');
+}
+
+function showPopup(id){document.getElementById('globalOverlay').style.display='block';document.getElementById(id).style.display='block';}
+function hidePopup(id){
+  document.getElementById(id).style.display='none';
+  if(!['adminPanel','widgetEditorPopup','socialEditorPopup','categoryModal','photoModal','charModal','charEditFieldPopup','charGalleryAddPopup'].some(pid=>document.getElementById(pid).style.display==='block'))document.getElementById('globalOverlay').style.display='none';
+}
+function closeAllPopups(){
+  ['adminPanel','widgetEditorPopup','socialEditorPopup','categoryModal','photoModal','charModal','charEditFieldPopup','charGalleryAddPopup'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('globalOverlay').style.display='none';
+}
+
+function openLightbox(items,index){
+  lightboxItems=items;lightboxIndex=index; renderLightbox();
+  document.getElementById('lightboxOverlay').classList.add('active'); document.body.style.overflow='hidden';
+}
+function renderLightbox(){
+  const item=lightboxItems[lightboxIndex]; if(!item) return;
+  document.getElementById('lightboxImg').src=autoConvertDriveLink(item.url);
+  document.getElementById('lightboxTitle').innerText=item.title||'';
+  document.getElementById('lightboxExtra').innerText=item.extra||'';
+  document.getElementById('lightboxPrev').style.visibility=lightboxItems.length>1?'visible':'hidden';
+  document.getElementById('lightboxNext').style.visibility=lightboxItems.length>1?'visible':'hidden';
+}
+function lightboxNav(dir){ if(lightboxItems.length === 0) return; lightboxIndex=(lightboxIndex+dir+lightboxItems.length)%lightboxItems.length; renderLightbox(); }
+function closeLightbox(){document.getElementById('lightboxOverlay').classList.remove('active');document.body.style.overflow='';}
+function closeLightboxOnBg(e){if(e.target.id==='lightboxOverlay' || e.target.className === 'lightbox-content-wrapper')closeLightbox();}
+function openPortfolioLightbox(index) { openLightbox(portfolioLightboxGallery, index); }
+
+function renderCategoryTabs(page){
+  const el=document.getElementById(`${page}-catTabs`);if(!el)return;
+  el.innerHTML=pageCategories[page].map(cat=>{
+    const active=cat===currentActiveTabs[page]?'active-tab':'';
+    return `<button class="category-btn ${active}" onclick="filterCategory('${page}','${cat}')">${cat}</button>`;
+  }).join('');
+}
+function renderCharCatTabs(){
+  const el=document.getElementById('character-catTabs');if(!el)return;
+  el.innerHTML=pageCategories['character'].map(cat=>{
+    const active=cat===currentActiveTabs['character']?'active-tab':'';
+    return `<button class="category-btn ${active}" onclick="filterCategory('character','${cat}')">${cat}</button>`;
+  }).join('');
+}
+function filterCategory(page,cat){
+  currentActiveTabs[page]=cat;
+  if(page==='character'){renderCharCatTabs();renderCharGrid();}
+  else{renderCategoryTabs(page);renderPhotoGrid(page);}
+}
+
+function renderPhotoGrid(page){
+  const grid=document.getElementById(`${page}-grid`); if(!grid) return;
+  grid.innerHTML=''; const tab=currentActiveTabs[page]; const isPortfolio = page === 'portfolio';
+  const filtered=pagePhotos[page].filter(p=>tab==="All"||p.cats.includes(tab));
+  window[`filteredList${page}`] = filtered;
+  if(filtered.length===0){grid.innerHTML=`<p style="color:#b399b9;text-align:center;grid-column:1/-1">ยังไม่มีรูปจ้า 🧸</p>`;return;}
+  if(isPortfolio) {
+    portfolioLightboxGallery = [];
+    filtered.forEach(p => {
+       portfolioLightboxGallery.push({url: p.url, title: "", extra: ""});
+       if(p.gallery) p.gallery.forEach(gUrl => portfolioLightboxGallery.push({url: gUrl, title: "", extra: ""}));
+    });
+  }
+  filtered.forEach((photo, idx)=>{
+    const catsHtml=(photo.cats||[]).map(c=>`<span class="card-cat-tag">${c}</span>`).join('');
+    let statusHtml='';
+    if(!isPortfolio && photo.status){
+      const cls={open:'badge-open',closed:'badge-closed',waitlist:'badge-waitlist'}[photo.status];
+      statusHtml=`<div><span class="comm-status-badge ${cls}">${photo.status.toUpperCase()}</span></div>`;
+    }
+    let clickAttr = isPortfolio ? `onclick="openPortfolioLightbox(${portfolioLightboxGallery.findIndex(item => item.url === photo.url)})"` : `onclick="openItemDetail('${page}', ${idx}, window.filteredList${page})"`;
+    grid.innerHTML+=`
+      <div class="portfolio-card" ${clickAttr}>
+        <button class="delete-card-btn" onclick="event.stopPropagation();deletePhoto('${page}',${photo.id})">X</button>
+        <button class="edit-card-btn" onclick="event.stopPropagation();openEditPhotoModal('${page}',${photo.id})">✎</button>
+        <img src="${autoConvertDriveLink(photo.url)}" loading="lazy" alt="art" onerror="this.src='https://via.placeholder.com/300x200?text=Error'">
+        ${!isPortfolio ? `<p>${photo.title || "Untitled"}</p>` : ''}
+        <div class="card-cats">${catsHtml}</div>
+        ${!isPortfolio && photo.price ? `<p class="card-price">${photo.price}</p>` : ''}
+        ${statusHtml}
+      </div>`;
+  });
+}
+
+function openItemDetail(page, index, filteredList){
+  currentFilteredItems = filteredList; currentItemDetailIndex = index; currentDetailPage = page; currentItemGalleryIndex = 0; 
+  renderItemDetail(); document.getElementById('itemDetailOverlay').classList.add('active'); document.body.style.overflow='hidden';
+}
+function renderItemDetail(){
+  const item = currentFilteredItems[currentItemDetailIndex]; if(!item) return;
+  const allImages = [item.url, ...(item.gallery||[])];
+  document.getElementById('detailMainImg').src = autoConvertDriveLink(allImages[currentItemGalleryIndex]);
+  let statusSmall = '';
+  if(currentDetailPage === 'commission' && item.status){
+     const cls={open:'badge-open',closed:'badge-closed',waitlist:'badge-waitlist'}[item.status];
+     statusSmall = `<span class="comm-status-badge ${cls}" style="font-size:0.7rem; padding:1px 6px; margin-right:5px; vertical-align:middle;">${item.status.toUpperCase()}</span>`;
+  }
+  document.getElementById('detailName').innerHTML = statusSmall + (item.title || "Untitled");
+  document.getElementById('detailPrice').innerText = item.price || "";
+  document.getElementById('detailDesc').innerText = item.desc || "ไม่มีรายละเอียดเพิ่มเติม...";
+  document.getElementById('itemNavPrev').style.visibility = currentFilteredItems.length > 1 ? 'visible' : 'hidden';
+  document.getElementById('itemNavNext').style.visibility = currentFilteredItems.length > 1 ? 'visible' : 'hidden';
+  document.getElementById('galNavPrev').style.display = allImages.length > 1 ? 'block' : 'none';
+  document.getElementById('galNavNext').style.display = allImages.length > 1 ? 'block' : 'none';
+}
+function navGalleryDetail(dir){
+  const item = currentFilteredItems[currentItemDetailIndex]; const allImages = [item.url, ...(item.gallery||[])];
+  currentItemGalleryIndex = (currentItemGalleryIndex + dir + allImages.length) % allImages.length; renderItemDetail();
+}
+function navItemDetail(dir){ currentItemDetailIndex = (currentItemDetailIndex + dir + currentFilteredItems.length) % currentFilteredItems.length; currentItemGalleryIndex = 0; renderItemDetail(); }
+function closeItemDetail(){document.getElementById('itemDetailOverlay').classList.remove('active');document.body.style.overflow='';}
+function closeItemDetailOnBg(e){if(e.target.id==='itemDetailOverlay')closeItemDetail();}
+function openDetailLightbox(){
+    const item = currentFilteredItems[currentItemDetailIndex]; const allImages = [item.url, ...(item.gallery||[])].map(url=>({url: url, title:item.title}));
+    openLightbox(allImages, currentItemGalleryIndex);
+}
+
+function renderCharGrid(){
+  const grid=document.getElementById('charGrid'); grid.innerHTML=''; const tab=currentActiveTabs['character'];
+  const filtered=characters.filter(c=>tab==="All"||c.cats.includes(tab)); currentFilteredItems = filtered;
+  filtered.forEach((char, idx)=>{
+    grid.innerHTML+=`
+      <div class="char-card" onclick="openCharProfile(${char.id})">
+        <button class="delete-card-btn" onclick="event.stopPropagation();deleteChar(${char.id})">X</button>
+        <img src="${autoConvertDriveLink(char.img)}" loading="lazy" alt="${char.name}" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="char-name">${char.name}</div>
+        <div class="char-species">${char.species}</div>
+        <div class="char-tags">${(char.tags||[]).map(t=>`<span class="char-tag">${t}</span>`).join('')}</div>
+      </div>`;
+  });
+}
+
+function openCharProfile(id){
+  const index = currentFilteredItems.findIndex(c => c.id === id); if(index === -1) return;
+  currentItemDetailIndex = index; renderCharProfileContent();
+  document.getElementById('charProfileOverlay').classList.add('active'); document.body.style.overflow='hidden';
+}
+function renderCharProfileContent(){
+  const char = currentFilteredItems[currentItemDetailIndex]; if(!char) return; viewingCharId = char.id;
+  document.getElementById('cpImg').src=autoConvertDriveLink(char.img);
+  document.getElementById('cpName').innerText=char.name;
+  document.getElementById('cpSpecies').innerText=char.species||'';
+  document.getElementById('cpCatsRow').innerHTML=(char.cats||[]).map(c=>`<span class="char-profile-cat">${c}</span>`).join('');
+  document.getElementById('cpTags').innerHTML=(char.tags||[]).map(t=>`<span class="char-tag">${t}</span>`).join('');
+  const stats=[{l:'Birthday',v:char.birthday},{l:'Age',v:char.age},{l:'Weight',v:char.weight},{l:'Height',v:char.height},{l:'Gender',v:char.gender},{l:'Species',v:char.species}];
+  document.getElementById('cpStatGrid').innerHTML=stats.map(s=>`<div class="char-stat-item"><div class="char-stat-label">${s.l}</div><div class="char-stat-value">${s.v||'-'}</div></div>`).join('');
+  document.getElementById('cpDesc').innerText=char.desc||'no description yet...';
+  const tos=char.tos||{rights:'standard',text:'',img:''}; const tosInfo=TOS_INFO[tos.rights]||TOS_INFO.standard;
+  document.getElementById('cpTosBox').innerHTML=`<span class="tos-badge ${tosInfo.cls}">${tosInfo.label}</span><span style="color:#b399b9;font-size:.8rem">${tosInfo.desc}</span>${tos.text?`<div class="tos-text">${tos.text}</div>`:''}${tos.img?`<img src="${autoConvertDriveLink(tos.img)}" class="tos-image-display" onclick="openLightbox([{url:'${tos.img}',title:'TOS Image'}],0)">`:''}`;
+  document.getElementById('cpTosSection').style.display='block';
+  const galleryEl=document.getElementById('cpGallery');
+  galleryEl.innerHTML=(char.gallery||[]).map((url,i)=>`<div class="gallery-item-wrap"><img class="char-gallery-img" src="${autoConvertDriveLink(url)}" onclick="openCharGalleryLightbox(${char.id},${i})" onerror="this.src='https://via.placeholder.com/100'"><button class="del-gallery-btn" onclick="deleteGalleryImg(${char.id},${i})">X</button></div>`).join('') || '<p style="color:#b399b9;font-size:.8rem">ยังไม่มีรูปจ้า</p>';
+  document.getElementById('charNavPrev').style.visibility = currentFilteredItems.length > 1 ? 'visible' : 'hidden';
+  document.getElementById('charNavNext').style.visibility = currentFilteredItems.length > 1 ? 'visible' : 'hidden';
+}
+function navCharProfile(dir){ currentItemDetailIndex = (currentItemDetailIndex + dir + currentFilteredItems.length) % currentFilteredItems.length; renderCharProfileContent(); }
+function closeCharProfile(){document.getElementById('charProfileOverlay').classList.remove('active');document.body.style.overflow='';}
+function closeCharProfileOnBg(e){if(e.target.id==='charProfileOverlay')closeCharProfile();}
+function openCharGalleryLightbox(charId,idx){ const char=characters.find(c=>c.id===charId); openLightbox((char.gallery||[]).map(url=>({url: url, title:char.name+' Gallery'})),idx); }
+function deleteGalleryImg(charId,idx){ if(!isLoggedIn || !confirm('ลบรูป?')) return; const char = characters.find(c=>c.id===charId); char.gallery.splice(idx,1); localStorage.setItem('velune_chars',JSON.stringify(characters)); renderCharProfileContent(); }
+
+function openWidgetEditor(type){
+  if(!isLoggedIn)return; currentEditingWidget=type;
+  const commonFields = document.getElementById('commonWidgetFields'); const contactFields = document.getElementById('contactFields');
+  const titleInput = document.getElementById('editorTitle'); const imgInput = document.getElementById('editorImgUrl');
+  const textInput = document.getElementById('editorTextContent'); const previewBox = document.getElementById('widgetImgPreviewBox');
+  commonFields.style.display = 'block'; contactFields.style.display = 'none'; previewBox.style.display = 'flex'; imgInput.style.display = 'block';
+  document.getElementById('editorImgUrlLabel').style.display = 'block'; document.getElementById('editorTitleLabel').style.display = 'block'; titleInput.style.display = 'block';
+  if(type==='profile'){
+    document.getElementById('editorTitleLabel').style.display = 'none'; titleInput.style.display = 'none'; imgInput.value = document.getElementById('profileImg').src;
+    textInput.value = document.getElementById('profileStatusZone').innerHTML.replace(/<p>/g,'').replace(/<\/p>/g,'\n').trim(); document.getElementById('livePreviewImg').src = imgInput.value;
+  } else if(['welcome','tos','message','updates'].includes(type)) {
+    imgInput.style.display = 'none'; document.getElementById('editorImgUrlLabel').style.display = 'none'; previewBox.style.display = 'none'; titleInput.value = document.getElementById(type+'Title').innerText;
+    let targetId = type==='welcome'?'welcomeContentText':(type==='tos'?'tosContentText':(type==='message'?'messageContentText':'updatesContentText'));
+    textInput.value = document.getElementById(targetId).innerHTML.replace(/<p>/g,'').replace(/<\/p>/g,'\n').trim();
+  } else if(type==='stamp') {
+    document.getElementById('editorTitleLabel').style.display = 'none'; titleInput.style.display = 'none'; imgInput.value = document.getElementById('stampImg').src; textInput.value = document.getElementById('stampTitleText').innerText; document.getElementById('livePreviewImg').src = imgInput.value;
+  } else if(type==='contact') {
+    commonFields.style.display = 'none'; previewBox.style.display = 'none'; contactFields.style.display = 'block';
+    const savedLinks = JSON.parse(localStorage.getItem('velune_contact_links') || '{}'); ['fb','ig','tt','x','vgen'].forEach(k => document.getElementById(`link_${k}`).value = savedLinks[k] || '');
+  }
+  showPopup('widgetEditorPopup');
+}
+function saveWidgetData(){
+  const type = currentEditingWidget; const title = document.getElementById('editorTitle').value; const imgUrlRaw = document.getElementById('editorImgUrl').value;
+  const text = document.getElementById('editorTextContent').value; const html = text.split('\n').map(l=>l.trim()?`<p>${l}</p>`:'').join('');
+  if(type==='profile') {
+    const finalImg = autoConvertDriveLink(imgUrlRaw); document.getElementById('profileImg').src = finalImg; document.getElementById('profileStatusZone').innerHTML = html; localStorage.setItem('velune_profile_img', finalImg); localStorage.setItem('velune_profile_status', html);
+  } else if(['welcome','tos','message','updates'].includes(type)) {
+    document.getElementById(type+'Title').innerText = title; let targetId = type==='welcome'?'welcomeContentText':(type==='tos'?'tosContentText':(type==='message'?'messageContentText':'updatesContentText'));
+    document.getElementById(targetId).innerHTML = html; localStorage.setItem(`velune_${type}_title`, title); localStorage.setItem(`velune_${type}_content`, html);
+  } else if(type==='stamp') {
+    const finalStamp = autoConvertDriveLink(imgUrlRaw); document.getElementById('stampImg').src = finalStamp; document.getElementById('stampTitleText').innerText = text; localStorage.setItem('velune_stamp_img', finalStamp); localStorage.setItem('velune_stamp_title', text);
+  } else if(type==='contact') {
+    const links = { fb: document.getElementById('link_fb').value.trim(), ig: document.getElementById('link_ig').value.trim(), tt: document.getElementById('link_tt').value.trim(), x: document.getElementById('link_x').value.trim(), vgen: document.getElementById('link_vgen').value.trim() };
+    localStorage.setItem('velune_contact_links', JSON.stringify(links)); renderContactLinks();
+  }
+  hidePopup('widgetEditorPopup');
+}
+
+function openCategoryModal(page){
+  currentModalPage=page; document.getElementById('newCatName').value=''; const zone=document.getElementById('deleteCatList'); zone.innerHTML='';
+  pageCategories[page].forEach(cat=>{ if(cat!=="All") zone.innerHTML+=`<button class="category-btn" style="border-color:#ff5555;color:#ff5555;margin:4px" onclick="deleteCategory('${page}','${cat}')">🗑️ ${cat}</button>`; });
+  showPopup('categoryModal');
+}
+function addNewCategory(){
+  const name=document.getElementById('newCatName').value.trim(); if(!name || pageCategories[currentModalPage].includes(name)) return;
+  pageCategories[currentModalPage].push(name); localStorage.setItem(`velune_cats_${currentModalPage}`,JSON.stringify(pageCategories[currentModalPage]));
+  if(currentModalPage==='character') renderCharCatTabs(); else renderCategoryTabs(currentModalPage); openCategoryModal(currentModalPage);
+}
+function deleteCategory(page,catName){
+  if(!confirm(`ลบหมวดหมู่ "${catName}"?`)) return; pageCategories[page]=pageCategories[page].filter(c=>c!==catName);
+  localStorage.setItem(`velune_cats_${page}`,JSON.stringify(pageCategories[page])); currentActiveTabs[page]="All";
+  if(page==='character'){renderCharCatTabs();renderCharGrid();}else{renderCategoryTabs(page);renderPhotoGrid(page);} openCategoryModal(page);
+}
+function openPhotoModal(page){
+  currentModalPage=page; editingPhotoId=null; document.getElementById('photoLinksInput').value=''; document.getElementById('photoTitleInput').value='';
+  document.getElementById('photoDescInput').value=''; document.getElementById('portfolioLivePreview').src='https://via.placeholder.com/150';
+  document.getElementById('photoTitleGroup').style.display = page==='portfolio' ? 'none' : 'block'; buildCatCheckboxes('photoCatCheckboxes',page,[]);
+  document.getElementById('shopPriceField').style.display=(page==='shop' || page==='commission')?'block':'none'; document.getElementById('commStatusField').style.display=page==='commission'?'block':'none';
+  showPopup('photoModal');
+}
+function openEditPhotoModal(page, id) {
+  currentModalPage=page; editingPhotoId=id; const photo = pagePhotos[page].find(p => p.id === id); if(!photo) return;
+  document.getElementById('photoLinksInput').value = [photo.url, ...(photo.gallery || [])].join('\n'); document.getElementById('photoTitleInput').value = photo.title || '';
+  document.getElementById('photoDescInput').value = photo.desc || ''; document.getElementById('portfolioLivePreview').src = autoConvertDriveLink(photo.url);
+  document.getElementById('photoTitleGroup').style.display = page==='portfolio' ? 'none' : 'block'; buildCatCheckboxes('photoCatCheckboxes', page, photo.cats || []);
+  document.getElementById('shopPriceField').style.display=(page==='shop' || page==='commission')?'block':'none'; document.getElementById('photoPriceInput').value = photo.price || '';
+  document.getElementById('commStatusField').style.display=page==='commission'?'block':'none'; document.getElementById('photoStatusInput').value = photo.status || 'open';
+  showPopup('photoModal');
+}
+function saveNewPhoto(){
+  const links = document.getElementById('photoLinksInput').value.split('\n').map(u=>u.trim()).filter(Boolean); if(links.length === 0) { alert('กรุณาใส่ลิงก์รูปภาพ!'); return; }
+  const cats = getCheckedCats('photoCatCheckboxes'); if(cats.length === 0) { alert('กรุณาเลือกหมวดหมู่!'); return; }
+  const photoData = { id: editingPhotoId || Date.now(), cats: cats, url: autoConvertDriveLink(links[0]), gallery: links.slice(1).map(u => autoConvertDriveLink(u)), title: currentModalPage==='portfolio' ? "" : (document.getElementById('photoTitleInput').value.trim() || "Untitled"), desc: currentModalPage==='portfolio' ? "" : document.getElementById('photoDescInput').value.trim(), price: document.getElementById('photoPriceInput').value.trim(), status: document.getElementById('photoStatusInput').value };
+  if(editingPhotoId) { const idx = pagePhotos[currentModalPage].findIndex(p => p.id === editingPhotoId); pagePhotos[currentModalPage][idx] = photoData; } else { pagePhotos[currentModalPage].push(photoData); }
+  localStorage.setItem(`velune_photos_${currentModalPage}`, JSON.stringify(pagePhotos[currentModalPage])); renderPhotoGrid(currentModalPage); hidePopup('photoModal');
+}
+function deletePhoto(page,id){ if(!confirm('ลบรูปนี้ใช่ไหม?')) return; pagePhotos[page]=pagePhotos[page].filter(p=>p.id!==id); localStorage.setItem(`velune_photos_${page}`,JSON.stringify(pagePhotos[page])); renderPhotoGrid(page); }
+function buildCatCheckboxes(containerId,page,selectedCats){ const el=document.getElementById(containerId); el.innerHTML=pageCategories[page].filter(cat => cat!=="All").map(cat => `<label><input type="checkbox" value="${cat}" ${(selectedCats||[]).includes(cat)?'checked':''}> ${cat}</label>`).join(''); }
+function getCheckedCats(containerId){return Array.from(document.querySelectorAll(`#${containerId} input[type=checkbox]:checked`)).map(c=>c.value);}
+function openEditCharField(field){
+  if(!isLoggedIn||!viewingCharId)return; const char=characters.find(c=>c.id===viewingCharId); currentEditField=field; const body=document.getElementById('charEditFieldBody'); body.innerHTML='';
+  if(field==='img'){ body.innerHTML=`<div class="preview-box"><img id="cpEditImgPreview" src="${autoConvertDriveLink(char.img)}"></div><input type="text" class="popup-input" id="ef_img" value="${char.img}" oninput="autoConvertDriveLink(this.value,'cpEditImgPreview')">`;
+  }else if(field==='name'){ body.innerHTML=`<input class="popup-input" id="ef_name" value="${char.name}">`;
+  }else if(field==='species_header'){ body.innerHTML=`<input class="popup-input" id="ef_species_h" value="${char.species}">`;
+  }else if(field==='stats'){ body.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div>Birthday:<input class="popup-input" id="ef_birthday" value="${char.birthday||''}"></div><div>Age:<input class="popup-input" id="ef_age" value="${char.age||''}"></div><div>Weight:<input class="popup-input" id="ef_weight" value="${char.weight||''}"></div><div>Height:<input class="popup-input" id="ef_height" value="${char.height||''}"></div><div>Gender:<input class="popup-input" id="ef_gender" value="${char.gender||''}"></div><div>Species:<input class="popup-input" id="ef_species" value="${char.species||''}"></div></div>Tags:<input class="popup-input" id="ef_tags" value="${(char.tags||[]).join(', ')}"><div id="ef_cats" class="cat-checkbox-list"></div>`; buildCatCheckboxes('ef_cats','character',char.cats||[]);
+  }else if(field==='desc'){ body.innerHTML=`<textarea class="popup-textarea" id="ef_desc" style="height:120px">${char.desc||''}</textarea>`;
+  }else if(field==='tos'){ const tos=char.tos||{rights:'standard',text:'',img:''}; body.innerHTML=`<select class="popup-select" id="ef_tosrights"><option value="standard" ${tos.rights==='standard'?'selected':''}>🔵 สิทธิ์ปกติ</option><option value="commercial" ${tos.rights==='commercial'?'selected':''}>🟠 สิทธิ์เชิงพาณิชย์</option><option value="exclusive" ${tos.rights==='exclusive'?'selected':''}>🔴 สิทธิ์ขาด</option></select><textarea class="popup-textarea" id="ef_tostext" placeholder="ข้อตกลงเพิ่มเติม">${tos.text||''}</textarea><div class="preview-box"><img id="cpEditTosImgPreview" src="${autoConvertDriveLink(tos.img) || 'https://via.placeholder.com/150'}"></div><input type="text" class="popup-input" id="ef_tosimg" value="${tos.img||''}" placeholder="ลิงก์รูปภาพ TOS" oninput="autoConvertDriveLink(this.value,'cpEditTosImgPreview')">`; }
+  showPopup('charEditFieldPopup');
+}
+function saveCharEditField(){
+  const char=characters.find(c=>c.id===viewingCharId);
+  if(currentEditField==='img') char.img=document.getElementById('ef_img').value; else if(currentEditField==='name') char.name=document.getElementById('ef_name').value.trim(); else if(currentEditField==='species_header') char.species=document.getElementById('ef_species_h').value.trim(); else if(currentEditField==='stats'){ ['birthday','age','weight','height','gender','species'].forEach(k => char[k]=document.getElementById(`ef_${k}`).value); char.tags=document.getElementById('ef_tags').value.split(',').map(t=>t.trim()).filter(Boolean); char.cats=getCheckedCats('ef_cats'); } else if(currentEditField==='desc') char.desc=document.getElementById('ef_desc').value; else if(currentEditField==='tos') char.tos={rights:document.getElementById('ef_tosrights').value,text:document.getElementById('ef_tostext').value,img:document.getElementById('ef_tosimg').value};
+  localStorage.setItem('velune_chars',JSON.stringify(characters)); hidePopup('charEditFieldPopup'); renderCharGrid(); renderCharProfileContent();
+}
+function openCharGalleryAdd(){if(isLoggedIn) showPopup('charGalleryAddPopup');}
+function saveCharGalleryImg(){ const url=document.getElementById('charGalleryUrlInput').value.trim(); if(!url) return; characters.find(c=>c.id===viewingCharId).gallery.push(url); localStorage.setItem('velune_chars',JSON.stringify(characters)); hidePopup('charGalleryAddPopup'); renderCharProfileContent(); }
+function openCharModal(){ document.getElementById('charLivePreview').src='https://via.placeholder.com/150'; buildCatCheckboxes('charCatCheckboxes','character',[]); showPopup('charModal'); }
+function saveNewChar(){
+  const name=document.getElementById('charNameInput').value.trim(); if(!name) return;
+  characters.push({ id:Date.now(), img:document.getElementById('charImgInput').value, name:name, species:document.getElementById('charSpeciesInput').value, birthday:document.getElementById('charBirthdayInput').value, age:document.getElementById('charAgeInput').value, gender:document.getElementById('charGenderInput').value, height:document.getElementById('charHeightInput').value, weight:document.getElementById('charWeightInput').value, cats:getCheckedCats('charCatCheckboxes'), tags:document.getElementById('charTagsInput').value.split(',').map(t=>t.trim()).filter(Boolean), desc:document.getElementById('charDescInput').value, tos:{rights:'standard',text:'',img:''},gallery:[] });
+  localStorage.setItem('velune_chars',JSON.stringify(characters)); renderCharGrid(); hidePopup('charModal');
+}
+function deleteChar(id){ if(confirm('ลบตัวละคร?')){characters=characters.filter(c=>c.id!==id);localStorage.setItem('velune_chars',JSON.stringify(characters));renderCharGrid();} }
+function openSocialEditor() { const container = document.getElementById('socialInputsContainer'); const socials = JSON.parse(localStorage.getItem('velune_socials') || '[]'); container.innerHTML = [0,1,2,3,4].map(i => { const s = socials[i] || {name:'', link:''}; return `<div style="margin-bottom:12px; border-bottom:1px dashed #4a3556; padding-bottom:8px;"><label class="preview-label">แอปโซเชียลที่ ${i+1}:</label><input type="text" class="popup-input" placeholder="เช่น facebook" value="${s.name}" id="soc_name_${i}"><label class="preview-label">ลิงก์ปลายทาง:</label><input type="text" class="popup-input" placeholder="วางลิงก์ที่นี่" value="${s.link}" id="soc_link_${i}"></div>`; }).join(''); showPopup('socialEditorPopup'); }
+function saveSocialData() { let socials = [0,1,2,3,4].map(i => ({name: document.getElementById(`soc_name_${i}`).value.trim(), link: document.getElementById(`soc_link_${i}`).value.trim()})).filter(s => s.name); localStorage.setItem('velune_socials', JSON.stringify(socials)); renderHomeSocials(); hidePopup('socialEditorPopup'); }
+function updatePhotoModalPreview() { const links = document.getElementById('photoLinksInput').value.split('\n').map(u=>u.trim()).filter(Boolean); const first = links.length > 0 ? autoConvertDriveLink(links[0]) : 'https://via.placeholder.com/150'; document.getElementById('portfolioLivePreview').src = first; }
+</script>
+</body>
+</html>
