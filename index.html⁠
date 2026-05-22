@@ -103,7 +103,6 @@ body.admin-mode .delete-card-btn, body.admin-mode .edit-card-btn{display:block}
 .char-profile-overlay.active{display:flex}
 .char-profile-panel{background-color:#1e1622;border:2px solid #ff79c6;border-radius:16px;width:100%;max-width:720px;max-height:90vh;overflow-y:auto;box-shadow:0 0 40px rgba(255,121,198,.4);position:relative;animation:slideUp .25s ease}
 @keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
-.char-nav-btn { z-index: 10002; }
 .char-profile-header{background:linear-gradient(135deg,#2e1f36 0%,#1e1622 100%);border-bottom:2px dashed #4a3556;padding:24px;display:flex;gap:20px;align-items:flex-start;position:relative}
 .char-profile-img{width:130px;height:130px;border-radius:12px;object-fit:cover;border:3px solid #ff79c6;flex-shrink:0;box-shadow:0 0 16px rgba(255,121,198,.3);cursor:pointer}
 .char-profile-info{flex:1}
@@ -167,7 +166,7 @@ body.admin-mode .del-gallery-btn{display:block}
   <div class="lightbox-content-wrapper">
     <button class="lightbox-nav" id="lightboxPrev" onclick="lightboxNav(-1)">‹</button>
     <div style="text-align:center;">
-      <img class="lightbox-img" id="lightboxImg" src="" alt="" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Load+Error'">
+      <img class="lightbox-img" id="lightboxImg" src="" alt="" onerror="this.src='https://via.placeholder.com/600x400?text=Image+Error'">
       <div class="lightbox-title" id="lightboxTitle"></div>
       <div class="lightbox-extra" id="lightboxExtra"></div>
     </div>
@@ -185,7 +184,7 @@ body.admin-mode .del-gallery-btn{display:block}
       <button class="char-profile-close" onclick="closeItemDetail()">✕</button>
       <div style="display:flex; align-items:center; justify-content:center; margin-bottom: 20px;">
         <button class="gallery-nav-btn" id="galNavPrev" onclick="navGalleryDetail(-1)">‹</button>
-        <img id="detailMainImg" src="" alt="" style="max-width:80%; max-height:450px; border-radius:12px; border:3px solid #ff79c6; cursor:pointer;" onclick="openDetailLightbox()" onerror="this.src='https://via.placeholder.com/400?text=Error'">
+        <img id="detailMainImg" src="" alt="" style="max-width:80%; max-height:450px; border-radius:12px; border:3px solid #ff79c6; cursor:pointer;" onclick="openDetailLightbox()">
         <button class="gallery-nav-btn" id="galNavNext" onclick="navGalleryDetail(1)">›</button>
       </div>
       <div style="color:#ffccd5;">
@@ -206,7 +205,7 @@ body.admin-mode .del-gallery-btn{display:block}
 
     <div class="char-profile-panel" id="charProfilePanel">
       <div class="char-profile-header">
-        <img class="char-profile-img" id="cpImg" src="" alt="" onclick="if(isLoggedIn)openEditCharField('img')" title="คลิกเพื่อเปลี่ยนรูป (Admin)" onerror="this.src='https://via.placeholder.com/150'">
+        <img class="char-profile-img" id="cpImg" src="" alt="" onclick="if(isLoggedIn)openEditCharField('img')" title="คลิกเพื่อเปลี่ยนรูป (Admin)">
         <div class="char-profile-info">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="char-profile-name" id="cpName"></div>
@@ -271,7 +270,7 @@ body.admin-mode .del-gallery-btn{display:block}
       <div>
         <div class="widget editable-widget" onclick="openWidgetEditor('profile')">
           <div class="widget-title">🎀 Profile</div>
-          <div class="profile-img-container"><img id="profileImg" class="profile-img" src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=150&auto=format&fit=crop" alt="Profile" onerror="this.src='https://via.placeholder.com/150'"></div>
+          <div class="profile-img-container"><img id="profileImg" class="profile-img" src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=150&auto=format&fit=crop" alt="Profile"></div>
           <div class="profile-info">
             <p><button id="loginBtnLabel" class="login-link" onclick="openAdmin(event)">Ve Lune</button> | artist | <span>about</span></p>
             <br>
@@ -310,7 +309,7 @@ body.admin-mode .del-gallery-btn{display:block}
           <div class="widget-title">⭐ Listings</div>
           <div class="stamp-box">
             <p id="stampTitleText" style="font-size:.8rem;color:#b399b9;margin-bottom:5px">Sticker Set</p>
-            <img id="stampImg" src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=80&auto=format&fit=crop" alt="stamp" style="border-radius:4px;width:60px;height:60px;object-fit:cover" onerror="this.src='https://via.placeholder.com/80'">
+            <img id="stampImg" src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=80&auto=format&fit=crop" alt="stamp" style="border-radius:4px;width:60px;height:60px;object-fit:cover">
           </div>
         </div>
         <div class="widget editable-widget" onclick="openWidgetEditor('contact')">
@@ -410,7 +409,7 @@ body.admin-mode .del-gallery-btn{display:block}
 </div>
 
 <div id="socialEditorPopup" class="admin-popup" style="display:none;width:380px">
-  <div class="popup-header">✦ โซเชียลมีเดีย ✦ <button class="close-popup-btn" onclick="hidePopup('socialEditorPopup')">X</button></div>
+  <div class="popup-header">✦ โซเชีลมีเดีย ✦ <button class="close-popup-btn" onclick="hidePopup('socialEditorPopup')">X</button></div>
   <p style="color:#ffccd5; font-size:11px; margin-bottom:10px;">ใส่ชื่อแอปและลิงก์</p>
   <div id="socialInputsContainer" style="text-align:left;"></div>
   <br><button class="popup-btn" onclick="saveSocialData()">บันทึก</button>
@@ -545,7 +544,8 @@ let characters=JSON.parse(localStorage.getItem('velune_chars'))||[{id:1,img:"htt
 function autoConvertDriveLink(rawUrl, previewImgId){
   if(!rawUrl) return "";
   let url=rawUrl.trim();
-  const driveRegex = /(?:https?:\/\/)?(?:drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=|file\/d\/)|docs\.google\.com\/file\/d\/)([a-zA-Z0-9_-]{20,})/;
+  // Regex เพื่อดึง ID จากลิงก์ Google Drive ทุกแบบ
+  const driveRegex = /(?:https?:\/\/)?(?:drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=|file\/d\/)|docs\.google\.com\/file\/d\/)([a-zA-Z0-9_-]{25,})/;
   const match = url.match(driveRegex);
   if (match && match[1]) { url = `https://drive.google.com/uc?export=view&id=${match[1]}`; }
   if(previewImgId){
@@ -681,8 +681,11 @@ function renderPhotoGrid(page){
   const grid=document.getElementById(`${page}-grid`); if(!grid) return;
   grid.innerHTML=''; const tab=currentActiveTabs[page]; const isPortfolio = page === 'portfolio';
   const filtered=pagePhotos[page].filter(p=>tab==="All"||p.cats.includes(tab));
+  
   window[`filteredList${page}`] = filtered;
+
   if(filtered.length===0){grid.innerHTML=`<p style="color:#b399b9;text-align:center;grid-column:1/-1">ยังไม่มีรูปจ้า 🧸</p>`;return;}
+  
   if(isPortfolio) {
     portfolioLightboxGallery = [];
     filtered.forEach(p => {
@@ -690,6 +693,7 @@ function renderPhotoGrid(page){
        if(p.gallery) p.gallery.forEach(gUrl => portfolioLightboxGallery.push({url: gUrl, title: "", extra: ""}));
     });
   }
+
   filtered.forEach((photo, idx)=>{
     const catsHtml=(photo.cats||[]).map(c=>`<span class="card-cat-tag">${c}</span>`).join('');
     let statusHtml='';
@@ -697,7 +701,9 @@ function renderPhotoGrid(page){
       const cls={open:'badge-open',closed:'badge-closed',waitlist:'badge-waitlist'}[photo.status];
       statusHtml=`<div><span class="comm-status-badge ${cls}">${photo.status.toUpperCase()}</span></div>`;
     }
+    
     let clickAttr = isPortfolio ? `onclick="openPortfolioLightbox(${portfolioLightboxGallery.findIndex(item => item.url === photo.url)})"` : `onclick="openItemDetail('${page}', ${idx}, window.filteredList${page})"`;
+
     grid.innerHTML+=`
       <div class="portfolio-card" ${clickAttr}>
         <button class="delete-card-btn" onclick="event.stopPropagation();deletePhoto('${page}',${photo.id})">X</button>
