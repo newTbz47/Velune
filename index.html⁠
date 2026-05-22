@@ -184,7 +184,7 @@ body.admin-mode .del-gallery-btn{display:block}
       <button class="char-profile-close" onclick="closeItemDetail()">✕</button>
       <div style="display:flex; align-items:center; justify-content:center; margin-bottom: 20px;">
         <button class="gallery-nav-btn" id="galNavPrev" onclick="navGalleryDetail(-1)">‹</button>
-        <img id="detailMainImg" src="" alt="" style="max-width:80%; max-height:450px; border-radius:12px; border:3px solid #ff79c6; cursor:pointer;" onclick="openDetailLightbox()" onerror="this.src='https://via.placeholder.com/400?text=Error'">
+        <img id="detailMainImg" src="" alt="" style="max-width:80%; max-height:450px; border-radius:12px; border:3px solid #ff79c6; cursor:pointer;" onclick="openDetailLightbox()">
         <button class="gallery-nav-btn" id="galNavNext" onclick="navGalleryDetail(1)">›</button>
       </div>
       <div style="color:#ffccd5;">
@@ -279,7 +279,7 @@ body.admin-mode .del-gallery-btn{display:block}
               <p>🧸 status: doing commissions</p>
               <p>☁️ feeling: tired</p>
             </div>
-            <!-- Social Text Links Area -->
+            <!-- Social Area -->
             <div class="profile-socials editable-widget" onclick="event.stopPropagation(); if(isLoggedIn) openSocialEditor()" id="profileSocialIcons"></div>
           </div>
         </div>
@@ -386,7 +386,6 @@ body.admin-mode .del-gallery-btn{display:block}
   <br><button class="popup-btn" onclick="checkPassword()">➔</button>
 </div>
 
-<!-- ป๊อปอัพแก้ไขกล่องทั่วไป (Home Widgets) -->
 <div id="widgetEditorPopup" class="admin-popup" style="display:none;width:380px">
   <div class="popup-header">✦ แก้ไขกล่อง ✦ <button class="close-popup-btn" onclick="hidePopup('widgetEditorPopup')">X</button></div>
   <div id="widgetImgPreviewBox" class="preview-box"><img id="livePreviewImg" src="" alt="พรีวิว"></div>
@@ -394,14 +393,11 @@ body.admin-mode .del-gallery-btn{display:block}
   <div id="commonWidgetFields">
     <label class="preview-label" id="editorTitleLabel">🏷️ หัวข้อกล่อง (Title):</label>
     <input type="text" id="editorTitle" class="popup-input">
-    
     <label class="preview-label" id="editorImgUrlLabel">🔗 ลิงก์รูปภาพ (URL):</label>
     <input type="text" id="editorImgUrl" class="popup-input" placeholder="วางลิงก์รูปที่นี่..." oninput="autoConvertDriveLink(this.value,'livePreviewImg')">
-    
     <label class="preview-label">📄 แก้ไขเนื้อหา (Content):</label>
     <textarea id="editorTextContent" class="popup-textarea" style="height:120px"></textarea>
   </div>
-
   <div id="contactFields" style="display:none; text-align:left;">
     <label class="preview-label">Facebook Link:</label>
     <input type="text" id="link_fb" class="popup-input">
@@ -414,19 +410,16 @@ body.admin-mode .del-gallery-btn{display:block}
     <label class="preview-label">Vgen Link:</label>
     <input type="text" id="link_vgen" class="popup-input">
   </div>
-
   <br><button class="popup-btn" onclick="saveWidgetData()">บันทึก</button>
 </div>
 
-<!-- ป๊อปอัพแก้ไข Social Links -->
 <div id="socialEditorPopup" class="admin-popup" style="display:none;width:380px">
   <div class="popup-header">✦ โซเชีลมีเดีย ✦ <button class="close-popup-btn" onclick="hidePopup('socialEditorPopup')">X</button></div>
-  <p style="color:#ffccd5; font-size:11px; margin-bottom:10px;">ใส่ชื่อแอปและลิงก์ (เช่น Facebook แล้วใส่ลิงก์ข้างล่าง)</p>
+  <p style="color:#ffccd5; font-size:11px; margin-bottom:10px;">ใส่ชื่อแอปและลิงก์</p>
   <div id="socialInputsContainer" style="text-align:left;"></div>
   <br><button class="popup-btn" onclick="saveSocialData()">บันทึก</button>
 </div>
 
-<!-- OTHER POPUPS -->
 <div id="categoryModal" class="admin-popup" style="display:none">
   <div class="popup-header">✦ จัดการหมวดหมู่ ✦ <button class="close-popup-btn" onclick="hidePopup('categoryModal')">X</button></div>
   <div class="popup-title" style="font-size:16px">เพิ่มหมวดหมู่ใหม่</div>
@@ -520,8 +513,6 @@ let currentFilteredItems = [];
 let currentItemDetailIndex = -1;
 let currentDetailPage = '';
 let currentItemGalleryIndex = 0; 
-
-// ตัวแปรสำหรับเก็บรายการรูปใน Lightbox ของหน้า Portfolio ที่ผ่านการ Filter แล้ว
 let portfolioLightboxGallery = [];
 
 const TOS_INFO={
@@ -553,23 +544,14 @@ gridPages.forEach(p=>{
 pageCategories['character']=JSON.parse(localStorage.getItem('velune_cats_character'))||defaultCats['character'];
 
 let currentActiveTabs={portfolio:"All",commission:"All",shop:"All",character:"All"};
+let characters=JSON.parse(localStorage.getItem('velune_chars'))||[{id:1,img:"https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=300",name:"Ve Lune",species:"Human / Artist",cats:["OC"],tags:["creative","tired"],gender:"Female",height:"160cm",weight:"-",age:"19 yrs",birthday:"May 22",desc:"The artist behind this website.",tos:{rights:"standard",text:"",img:""},gallery:[]}];
 
-let characters=JSON.parse(localStorage.getItem('velune_chars'))||[
-  {id:1,img:"https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=300",name:"Ve Lune",species:"Human / Artist",
-   cats:["OC"],tags:["creative","tired"],gender:"Female",height:"160cm",weight:"-",age:"19 yrs",birthday:"May 22",
-   desc:"The artist behind this website.",
-   tos:{rights:"standard",text:"",img:""},gallery:[]}
-];
-
-// --- AUTO CONVERT GOOGLE DRIVE LINK (Improved) ---
 function autoConvertDriveLink(rawUrl, previewImgId){
   if(!rawUrl) return "";
   let url=rawUrl.trim();
-  const driveRegex = /(?:https?:\/\/)?(?:drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=|file\/d\/)|docs\.google\.com\/file\/d\/)([a-zA-Z0-9_-]+)/;
+  const driveRegex = /(?:https?:\/\/)?(?:drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=|file\/d\/)|docs\.google\.com\/file\/d\/)([a-zA-Z0-9_-]{20,})/;
   const match = url.match(driveRegex);
-  if (match && match[1]) {
-    url = `https://drive.google.com/uc?export=view&id=${match[1]}`;
-  }
+  if (match && match[1]) { url = `https://drive.google.com/uc?export=view&id=${match[1]}`; }
   if(previewImgId){
     const previewEl = document.getElementById(previewImgId);
     if(previewEl) {
@@ -580,21 +562,17 @@ function autoConvertDriveLink(rawUrl, previewImgId){
   return url;
 }
 
-// --- HOME DATA LOAD ---
 function loadHomeContent() {
   const savedProfileImg = localStorage.getItem('velune_profile_img');
   if(savedProfileImg) document.getElementById('profileImg').src = autoConvertDriveLink(savedProfileImg);
   if(localStorage.getItem('velune_profile_status')) document.getElementById('profileStatusZone').innerHTML=localStorage.getItem('velune_profile_status');
-  
   ['welcome','tos','message','updates'].forEach(key => {
     if(localStorage.getItem(`velune_${key}_title`)) document.getElementById(`${key}Title`).innerText=localStorage.getItem(`velune_${key}_title`);
     if(localStorage.getItem(`velune_${key}_content`)) document.getElementById(`${key==='welcome'?'welcomeContentText':(key==='tos'?'tosContentText':(key==='message'?'messageContentText':'updatesContentText'))}`).innerHTML=localStorage.getItem(`velune_${key}_content`);
   });
-
   const savedStampImg = localStorage.getItem('velune_stamp_img');
   if(savedStampImg) document.getElementById('stampImg').src = autoConvertDriveLink(savedStampImg);
   if(localStorage.getItem('velune_stamp_title'))document.getElementById('stampTitleText').innerText=localStorage.getItem('velune_stamp_title');
-
   renderHomeSocials();
   renderContactLinks();
 }
@@ -624,17 +602,11 @@ window.onload=function(){
   renderCharCatTabs();renderCharGrid();
   document.addEventListener('keydown',e=>{
     if(document.getElementById('lightboxOverlay').classList.contains('active')){
-        if(e.key==='ArrowLeft')lightboxNav(-1);
-        if(e.key==='ArrowRight')lightboxNav(1);
-        if(e.key==='Escape')closeLightbox();
+        if(e.key==='ArrowLeft')lightboxNav(-1); if(e.key==='ArrowRight')lightboxNav(1); if(e.key==='Escape')closeLightbox();
     } else if(document.getElementById('itemDetailOverlay').classList.contains('active')){
-        if(e.key==='ArrowLeft')navItemDetail(-1);
-        if(e.key==='ArrowRight')navItemDetail(1);
-        if(e.key==='Escape')closeItemDetail();
+        if(e.key==='ArrowLeft')navItemDetail(-1); if(e.key==='ArrowRight')navItemDetail(1); if(e.key==='Escape')closeItemDetail();
     } else if(document.getElementById('charProfileOverlay').classList.contains('active')){
-        if(e.key==='ArrowLeft')navCharProfile(-1);
-        if(e.key==='ArrowRight')navCharProfile(1);
-        if(e.key==='Escape')closeCharProfile();
+        if(e.key==='ArrowLeft')navCharProfile(-1); if(e.key==='ArrowRight')navCharProfile(1); if(e.key==='Escape')closeCharProfile();
     }
   });
 };
@@ -649,21 +621,16 @@ function switchPage(p){
 function openAdmin(event){
   event.stopPropagation();
   if(isLoggedIn){
-    if(confirm("ออกจากระบบแอดมินไหมจ้ะ?")){
-      isLoggedIn=false;document.body.classList.remove('admin-mode');
-      document.getElementById('loginBtnLabel').innerText="Ve Lune";
-    }return;
+    if(confirm("ออกจากระบบแอดมินไหมจ้ะ?")){ isLoggedIn=false;document.body.classList.remove('admin-mode');document.getElementById('loginBtnLabel').innerText="Ve Lune"; }
+    return;
   }
-  document.getElementById('adminPassword').value='';
-  showPopup('adminPanel');
+  document.getElementById('adminPassword').value=''; showPopup('adminPanel');
 }
 
 function checkPassword(){
   if(document.getElementById('adminPassword').value===ADMIN_PASSWORD){
-    isLoggedIn=true;document.body.classList.add('admin-mode');
-    document.getElementById('loginBtnLabel').innerText="Ve Lune 🔒 (Admin)";
-    hidePopup('adminPanel');
-    gridPages.forEach(p=>{renderCategoryTabs(p);renderPhotoGrid(p);});renderCharGrid();
+    isLoggedIn=true;document.body.classList.add('admin-mode');document.getElementById('loginBtnLabel').innerText="Ve Lune 🔒 (Admin)";
+    hidePopup('adminPanel'); gridPages.forEach(p=>{renderCategoryTabs(p);renderPhotoGrid(p);});renderCharGrid();
   }else alert('รหัสผ่านไม่ถูกต้อง!');
 }
 
@@ -677,42 +644,23 @@ function closeAllPopups(){
   document.getElementById('globalOverlay').style.display='none';
 }
 
-function updatePhotoModalPreview() {
-  const links = document.getElementById('photoLinksInput').value.split('\n').map(u=>u.trim()).filter(Boolean);
-  const first = links.length > 0 ? autoConvertDriveLink(links[0]) : 'https://via.placeholder.com/150';
-  document.getElementById('portfolioLivePreview').src = first;
-}
-
-// --- LIGHTBOX SYSTEM ---
 function openLightbox(items,index){
-  lightboxItems=items;lightboxIndex=index;
-  renderLightbox();
-  document.getElementById('lightboxOverlay').classList.add('active');
-  document.body.style.overflow='hidden';
+  lightboxItems=items;lightboxIndex=index; renderLightbox();
+  document.getElementById('lightboxOverlay').classList.add('active'); document.body.style.overflow='hidden';
 }
 function renderLightbox(){
-  const item=lightboxItems[lightboxIndex];
-  if(!item) return;
+  const item=lightboxItems[lightboxIndex]; if(!item) return;
   document.getElementById('lightboxImg').src=autoConvertDriveLink(item.url);
   document.getElementById('lightboxTitle').innerText=item.title||'';
   document.getElementById('lightboxExtra').innerText=item.extra||'';
   document.getElementById('lightboxPrev').style.visibility=lightboxItems.length>1?'visible':'hidden';
   document.getElementById('lightboxNext').style.visibility=lightboxItems.length>1?'visible':'hidden';
 }
-function lightboxNav(dir){
-  if(lightboxItems.length === 0) return;
-  lightboxIndex=(lightboxIndex+dir+lightboxItems.length)%lightboxItems.length;
-  renderLightbox();
-}
+function lightboxNav(dir){ if(lightboxItems.length === 0) return; lightboxIndex=(lightboxIndex+dir+lightboxItems.length)%lightboxItems.length; renderLightbox(); }
 function closeLightbox(){document.getElementById('lightboxOverlay').classList.remove('active');document.body.style.overflow='';}
 function closeLightboxOnBg(e){if(e.target.id==='lightboxOverlay' || e.target.className === 'lightbox-content-wrapper')closeLightbox();}
+function openPortfolioLightbox(index) { openLightbox(portfolioLightboxGallery, index); }
 
-// ฟังก์ชันเฉพาะสำหรับเปิดหน้า Portfolio ป้องกันบัคจากการส่งค่า JSON ยาวๆ
-function openPortfolioLightbox(index) {
-    openLightbox(portfolioLightboxGallery, index);
-}
-
-// --- SHARED GRID FUNCTIONS ---
 function renderCategoryTabs(page){
   const el=document.getElementById(`${page}-catTabs`);if(!el)return;
   el.innerHTML=pageCategories[page].map(cat=>{
@@ -734,15 +682,11 @@ function filterCategory(page,cat){
 }
 
 function renderPhotoGrid(page){
-  const grid=document.getElementById(`${page}-grid`);
-  if(!grid) return;
-  grid.innerHTML='';
-  const tab=currentActiveTabs[page];
-  const isPortfolio = page === 'portfolio';
+  const grid=document.getElementById(`${page}-grid`); if(!grid) return;
+  grid.innerHTML=''; const tab=currentActiveTabs[page]; const isPortfolio = page === 'portfolio';
   const filtered=pagePhotos[page].filter(p=>tab==="All"||p.cats.includes(tab));
+  window[`filteredList${page}`] = filtered;
   if(filtered.length===0){grid.innerHTML=`<p style="color:#b399b9;text-align:center;grid-column:1/-1">ยังไม่มีรูปจ้า 🧸</p>`;return;}
-  
-  // เตรียมข้อมูลสำหรับ Lightbox ของหน้า Portfolio ที่ผ่านการ Filter
   if(isPortfolio) {
     portfolioLightboxGallery = [];
     filtered.forEach(p => {
@@ -750,55 +694,33 @@ function renderPhotoGrid(page){
        if(p.gallery) p.gallery.forEach(gUrl => portfolioLightboxGallery.push({url: gUrl, title: "", extra: ""}));
     });
   }
-
   filtered.forEach((photo, idx)=>{
-    const priceText = photo.price || "";
-    const title = photo.title || "Untitled";
     const catsHtml=(photo.cats||[]).map(c=>`<span class="card-cat-tag">${c}</span>`).join('');
     let statusHtml='';
     if(!isPortfolio && photo.status){
       const cls={open:'badge-open',closed:'badge-closed',waitlist:'badge-waitlist'}[photo.status];
       statusHtml=`<div><span class="comm-status-badge ${cls}">${photo.status.toUpperCase()}</span></div>`;
     }
-    
-    let clickAttr = "";
-    if(isPortfolio){
-        // คำนวณตำแหน่งเริ่มต้นของรูปหลักใน Gallery รวม
-        let startIndex = 0;
-        for(let i=0; i<idx; i++) startIndex += 1 + (filtered[i].gallery ? filtered[i].gallery.length : 0);
-        clickAttr = `onclick="openPortfolioLightbox(${startIndex})"`;
-    } else {
-        clickAttr = `onclick="openItemDetail('${page}', ${idx}, filteredList${page})"`;
-    }
-
+    let clickAttr = isPortfolio ? `onclick="openPortfolioLightbox(${portfolioLightboxGallery.findIndex(item => item.url === photo.url)})"` : `onclick="openItemDetail('${page}', ${idx}, window.filteredList${page})"`;
     grid.innerHTML+=`
       <div class="portfolio-card" ${clickAttr}>
         <button class="delete-card-btn" onclick="event.stopPropagation();deletePhoto('${page}',${photo.id})">X</button>
         <button class="edit-card-btn" onclick="event.stopPropagation();openEditPhotoModal('${page}',${photo.id})">✎</button>
-        <img src="${autoConvertDriveLink(photo.url)}" alt="art" onerror="this.src='https://via.placeholder.com/300x200?text=Error'">
-        ${!isPortfolio ? `<p>${title}</p>` : ''}
+        <img src="${autoConvertDriveLink(photo.url)}" loading="lazy" alt="art" onerror="this.src='https://via.placeholder.com/300x200?text=Error'">
+        ${!isPortfolio ? `<p>${photo.title || "Untitled"}</p>` : ''}
         <div class="card-cats">${catsHtml}</div>
-        ${!isPortfolio && priceText ? `<p class="card-price">${priceText}</p>` : ''}
+        ${!isPortfolio && photo.price ? `<p class="card-price">${photo.price}</p>` : ''}
         ${statusHtml}
       </div>`;
   });
-  // เก็บ List รายหน้าไว้ใช้อ้างอิง
-  window[`filteredList${page}`] = filtered;
 }
 
-// --- ITEM DETAIL SYSTEM ---
 function openItemDetail(page, index, filteredList){
-  currentFilteredItems = filteredList;
-  currentItemDetailIndex = index;
-  currentDetailPage = page;
-  currentItemGalleryIndex = 0; 
-  renderItemDetail();
-  document.getElementById('itemDetailOverlay').classList.add('active');
-  document.body.style.overflow='hidden';
+  currentFilteredItems = filteredList; currentItemDetailIndex = index; currentDetailPage = page; currentItemGalleryIndex = 0; 
+  renderItemDetail(); document.getElementById('itemDetailOverlay').classList.add('active'); document.body.style.overflow='hidden';
 }
 function renderItemDetail(){
-  const item = currentFilteredItems[currentItemDetailIndex];
-  if(!item) return;
+  const item = currentFilteredItems[currentItemDetailIndex]; if(!item) return;
   const allImages = [item.url, ...(item.gallery||[])];
   document.getElementById('detailMainImg').src = autoConvertDriveLink(allImages[currentItemGalleryIndex]);
   let statusSmall = '';
@@ -815,35 +737,25 @@ function renderItemDetail(){
   document.getElementById('galNavNext').style.display = allImages.length > 1 ? 'block' : 'none';
 }
 function navGalleryDetail(dir){
-  const item = currentFilteredItems[currentItemDetailIndex];
-  const allImages = [item.url, ...(item.gallery||[])];
-  currentItemGalleryIndex = (currentItemGalleryIndex + dir + allImages.length) % allImages.length;
-  renderItemDetail();
+  const item = currentFilteredItems[currentItemDetailIndex]; const allImages = [item.url, ...(item.gallery||[])];
+  currentItemGalleryIndex = (currentItemGalleryIndex + dir + allImages.length) % allImages.length; renderItemDetail();
 }
-function navItemDetail(dir){
-  currentItemDetailIndex = (currentItemDetailIndex + dir + currentFilteredItems.length) % currentFilteredItems.length;
-  currentItemGalleryIndex = 0; 
-  renderItemDetail();
-}
+function navItemDetail(dir){ currentItemDetailIndex = (currentItemDetailIndex + dir + currentFilteredItems.length) % currentFilteredItems.length; currentItemGalleryIndex = 0; renderItemDetail(); }
 function closeItemDetail(){document.getElementById('itemDetailOverlay').classList.remove('active');document.body.style.overflow='';}
 function closeItemDetailOnBg(e){if(e.target.id==='itemDetailOverlay')closeItemDetail();}
 function openDetailLightbox(){
-    const item = currentFilteredItems[currentItemDetailIndex];
-    const allImages = [item.url, ...(item.gallery||[])].map(url=>({url: url, title:item.title}));
+    const item = currentFilteredItems[currentItemDetailIndex]; const allImages = [item.url, ...(item.gallery||[])].map(url=>({url: url, title:item.title}));
     openLightbox(allImages, currentItemGalleryIndex);
 }
 
-// --- CHARACTER SYSTEM ---
 function renderCharGrid(){
-  const grid=document.getElementById('charGrid');grid.innerHTML='';
-  const tab=currentActiveTabs['character'];
-  const filtered=characters.filter(c=>tab==="All"||c.cats.includes(tab));
-  currentFilteredItems = filtered;
+  const grid=document.getElementById('charGrid'); grid.innerHTML=''; const tab=currentActiveTabs['character'];
+  const filtered=characters.filter(c=>tab==="All"||c.cats.includes(tab)); currentFilteredItems = filtered;
   filtered.forEach((char, idx)=>{
     grid.innerHTML+=`
       <div class="char-card" onclick="openCharProfile(${char.id})">
         <button class="delete-card-btn" onclick="event.stopPropagation();deleteChar(${char.id})">X</button>
-        <img src="${autoConvertDriveLink(char.img)}" alt="${char.name}" onerror="this.src='https://via.placeholder.com/150'">
+        <img src="${autoConvertDriveLink(char.img)}" loading="lazy" alt="${char.name}" onerror="this.src='https://via.placeholder.com/150'">
         <div class="char-name">${char.name}</div>
         <div class="char-species">${char.species}</div>
         <div class="char-tags">${(char.tags||[]).map(t=>`<span class="char-tag">${t}</span>`).join('')}</div>
@@ -852,369 +764,141 @@ function renderCharGrid(){
 }
 
 function openCharProfile(id){
-  const index = currentFilteredItems.findIndex(c => c.id === id);
-  if(index === -1) return;
-  currentItemDetailIndex = index;
-  renderCharProfileContent();
-  document.getElementById('charProfileOverlay').classList.add('active');
-  document.body.style.overflow='hidden';
+  const index = currentFilteredItems.findIndex(c => c.id === id); if(index === -1) return;
+  currentItemDetailIndex = index; renderCharProfileContent();
+  document.getElementById('charProfileOverlay').classList.add('active'); document.body.style.overflow='hidden';
 }
-
 function renderCharProfileContent(){
-  const char = currentFilteredItems[currentItemDetailIndex];
-  if(!char) return;
-  viewingCharId = char.id;
+  const char = currentFilteredItems[currentItemDetailIndex]; if(!char) return; viewingCharId = char.id;
   document.getElementById('cpImg').src=autoConvertDriveLink(char.img);
   document.getElementById('cpName').innerText=char.name;
   document.getElementById('cpSpecies').innerText=char.species||'';
   document.getElementById('cpCatsRow').innerHTML=(char.cats||[]).map(c=>`<span class="char-profile-cat">${c}</span>`).join('');
   document.getElementById('cpTags').innerHTML=(char.tags||[]).map(t=>`<span class="char-tag">${t}</span>`).join('');
-  
   const stats=[{l:'Birthday',v:char.birthday},{l:'Age',v:char.age},{l:'Weight',v:char.weight},{l:'Height',v:char.height},{l:'Gender',v:char.gender},{l:'Species',v:char.species}];
   document.getElementById('cpStatGrid').innerHTML=stats.map(s=>`<div class="char-stat-item"><div class="char-stat-label">${s.l}</div><div class="char-stat-value">${s.v||'-'}</div></div>`).join('');
   document.getElementById('cpDesc').innerText=char.desc||'no description yet...';
-  
-  const tos=char.tos||{rights:'standard',text:'',img:''};
-  const tosInfo=TOS_INFO[tos.rights]||TOS_INFO.standard;
-  document.getElementById('cpTosBox').innerHTML=`
-    <span class="tos-badge ${tosInfo.cls}">${tosInfo.label}</span>
-    <span style="color:#b399b9;font-size:.8rem">${tosInfo.desc}</span>
-    ${tos.text?`<div class="tos-text">${tos.text}</div>`:''}
-    ${tos.img?`<img src="${autoConvertDriveLink(tos.img)}" class="tos-image-display" onclick="openLightbox([{url:'${tos.img}',title:'TOS Image'}],0)">`:''}
-  `;
+  const tos=char.tos||{rights:'standard',text:'',img:''}; const tosInfo=TOS_INFO[tos.rights]||TOS_INFO.standard;
+  document.getElementById('cpTosBox').innerHTML=`<span class="tos-badge ${tosInfo.cls}">${tosInfo.label}</span><span style="color:#b399b9;font-size:.8rem">${tosInfo.desc}</span>${tos.text?`<div class="tos-text">${tos.text}</div>`:''}${tos.img?`<img src="${autoConvertDriveLink(tos.img)}" class="tos-image-display" onclick="openLightbox([{url:'${tos.img}',title:'TOS Image'}],0)">`:''}`;
   document.getElementById('cpTosSection').style.display='block';
-  
   const galleryEl=document.getElementById('cpGallery');
-  galleryEl.innerHTML=(char.gallery||[]).map((url,i)=>`
-    <div class="gallery-item-wrap">
-      <img class="char-gallery-img" src="${autoConvertDriveLink(url)}" onclick="openCharGalleryLightbox(${char.id},${i})" onerror="this.src='https://via.placeholder.com/100'">
-      <button class="del-gallery-btn" onclick="deleteGalleryImg(${char.id},${i})">X</button>
-    </div>`).join('') || '<p style="color:#b399b9;font-size:.8rem">ยังไม่มีรูปจ้า</p>';
-
+  galleryEl.innerHTML=(char.gallery||[]).map((url,i)=>`<div class="gallery-item-wrap"><img class="char-gallery-img" src="${autoConvertDriveLink(url)}" onclick="openCharGalleryLightbox(${char.id},${i})" onerror="this.src='https://via.placeholder.com/100'"><button class="del-gallery-btn" onclick="deleteGalleryImg(${char.id},${i})">X</button></div>`).join('') || '<p style="color:#b399b9;font-size:.8rem">ยังไม่มีรูปจ้า</p>';
   document.getElementById('charNavPrev').style.visibility = currentFilteredItems.length > 1 ? 'visible' : 'hidden';
   document.getElementById('charNavNext').style.visibility = currentFilteredItems.length > 1 ? 'visible' : 'hidden';
 }
-
-function navCharProfile(dir){
-  currentItemDetailIndex = (currentItemDetailIndex + dir + currentFilteredItems.length) % currentFilteredItems.length;
-  renderCharProfileContent();
-}
-
+function navCharProfile(dir){ currentItemDetailIndex = (currentItemDetailIndex + dir + currentFilteredItems.length) % currentFilteredItems.length; renderCharProfileContent(); }
 function closeCharProfile(){document.getElementById('charProfileOverlay').classList.remove('active');document.body.style.overflow='';}
 function closeCharProfileOnBg(e){if(e.target.id==='charProfileOverlay')closeCharProfile();}
+function openCharGalleryLightbox(charId,idx){ const char=characters.find(c=>c.id===charId); openLightbox((char.gallery||[]).map(url=>({url: url, title:char.name+' Gallery'})),idx); }
+function deleteGalleryImg(charId,idx){ if(!isLoggedIn || !confirm('ลบรูป?')) return; const char = characters.find(c=>c.id===charId); char.gallery.splice(idx,1); localStorage.setItem('velune_chars',JSON.stringify(characters)); renderCharProfileContent(); }
 
-function openCharGalleryLightbox(charId,idx){
-  const char=characters.find(c=>c.id===charId);
-  openLightbox((char.gallery||[]).map(url=>({url: url, title:char.name+' Gallery'})),idx);
-}
-function deleteGalleryImg(charId,idx){
-  if(!isLoggedIn || !confirm('ลบรูป?')) return;
-  const char = characters.find(c=>c.id===charId);
-  char.gallery.splice(idx,1);
-  localStorage.setItem('velune_chars',JSON.stringify(characters));
-  renderCharProfileContent();
-}
-
-// --- HOME WIDGET EDITOR ---
 function openWidgetEditor(type){
-  if(!isLoggedIn)return;
-  currentEditingWidget=type;
-  
-  const commonFields = document.getElementById('commonWidgetFields');
-  const contactFields = document.getElementById('contactFields');
-  const titleInput = document.getElementById('editorTitle');
-  const imgInput = document.getElementById('editorImgUrl');
-  const textInput = document.getElementById('editorTextContent');
-  const imgLabel = document.getElementById('editorImgUrlLabel');
-  const previewBox = document.getElementById('widgetImgPreviewBox');
-
-  commonFields.style.display = 'block';
-  contactFields.style.display = 'none';
-  previewBox.style.display = 'flex';
-  imgInput.style.display = 'block';
-  imgLabel.style.display = 'block';
-  document.getElementById('editorTitleLabel').style.display = 'block';
-  titleInput.style.display = 'block';
-
+  if(!isLoggedIn)return; currentEditingWidget=type;
+  const commonFields = document.getElementById('commonWidgetFields'); const contactFields = document.getElementById('contactFields');
+  const titleInput = document.getElementById('editorTitle'); const imgInput = document.getElementById('editorImgUrl');
+  const textInput = document.getElementById('editorTextContent'); const previewBox = document.getElementById('widgetImgPreviewBox');
+  commonFields.style.display = 'block'; contactFields.style.display = 'none'; previewBox.style.display = 'flex'; imgInput.style.display = 'block';
+  document.getElementById('editorImgUrlLabel').style.display = 'block'; document.getElementById('editorTitleLabel').style.display = 'block'; titleInput.style.display = 'block';
   if(type==='profile'){
-    document.getElementById('editorTitleLabel').style.display = 'none';
-    titleInput.style.display = 'none';
-    imgInput.value = document.getElementById('profileImg').src;
-    textInput.value = document.getElementById('profileStatusZone').innerHTML.replace(/<p>/g,'').replace(/<\/p>/g,'\n').trim();
-    document.getElementById('livePreviewImg').src = imgInput.value;
+    document.getElementById('editorTitleLabel').style.display = 'none'; titleInput.style.display = 'none'; imgInput.value = document.getElementById('profileImg').src;
+    textInput.value = document.getElementById('profileStatusZone').innerHTML.replace(/<p>/g,'').replace(/<\/p>/g,'\n').trim(); document.getElementById('livePreviewImg').src = imgInput.value;
   } else if(['welcome','tos','message','updates'].includes(type)) {
-    imgInput.style.display = 'none';
-    imgLabel.style.display = 'none';
-    previewBox.style.display = 'none';
-    titleInput.value = document.getElementById(type+'Title').innerText;
+    imgInput.style.display = 'none'; document.getElementById('editorImgUrlLabel').style.display = 'none'; previewBox.style.display = 'none'; titleInput.value = document.getElementById(type+'Title').innerText;
     let targetId = type==='welcome'?'welcomeContentText':(type==='tos'?'tosContentText':(type==='message'?'messageContentText':'updatesContentText'));
     textInput.value = document.getElementById(targetId).innerHTML.replace(/<p>/g,'').replace(/<\/p>/g,'\n').trim();
   } else if(type==='stamp') {
-    document.getElementById('editorTitleLabel').style.display = 'none';
-    titleInput.style.display = 'none';
-    imgInput.value = document.getElementById('stampImg').src;
-    textInput.value = document.getElementById('stampTitleText').innerText;
-    document.getElementById('livePreviewImg').src = imgInput.value;
+    document.getElementById('editorTitleLabel').style.display = 'none'; titleInput.style.display = 'none'; imgInput.value = document.getElementById('stampImg').src; textInput.value = document.getElementById('stampTitleText').innerText; document.getElementById('livePreviewImg').src = imgInput.value;
   } else if(type==='contact') {
-    commonFields.style.display = 'none';
-    previewBox.style.display = 'none';
-    contactFields.style.display = 'block';
-    const savedLinks = JSON.parse(localStorage.getItem('velune_contact_links') || '{}');
-    ['fb','ig','tt','x','vgen'].forEach(k => document.getElementById(`link_${k}`).value = savedLinks[k] || '');
+    commonFields.style.display = 'none'; previewBox.style.display = 'none'; contactFields.style.display = 'block';
+    const savedLinks = JSON.parse(localStorage.getItem('velune_contact_links') || '{}'); ['fb','ig','tt','x','vgen'].forEach(k => document.getElementById(`link_${k}`).value = savedLinks[k] || '');
   }
   showPopup('widgetEditorPopup');
 }
-
 function saveWidgetData(){
-  const type = currentEditingWidget;
-  const title = document.getElementById('editorTitle').value;
-  const imgUrlRaw = document.getElementById('editorImgUrl').value;
-  const text = document.getElementById('editorTextContent').value;
-  const html = text.split('\n').map(l=>l.trim()?`<p>${l}</p>`:'').join('');
-
+  const type = currentEditingWidget; const title = document.getElementById('editorTitle').value; const imgUrlRaw = document.getElementById('editorImgUrl').value;
+  const text = document.getElementById('editorTextContent').value; const html = text.split('\n').map(l=>l.trim()?`<p>${l}</p>`:'').join('');
   if(type==='profile') {
-    const finalImg = autoConvertDriveLink(imgUrlRaw);
-    document.getElementById('profileImg').src = finalImg;
-    document.getElementById('profileStatusZone').innerHTML = html;
-    localStorage.setItem('velune_profile_img', finalImg);
-    localStorage.setItem('velune_profile_status', html);
+    const finalImg = autoConvertDriveLink(imgUrlRaw); document.getElementById('profileImg').src = finalImg; document.getElementById('profileStatusZone').innerHTML = html; localStorage.setItem('velune_profile_img', finalImg); localStorage.setItem('velune_profile_status', html);
   } else if(['welcome','tos','message','updates'].includes(type)) {
-    document.getElementById(type+'Title').innerText = title;
-    let targetId = type==='welcome'?'welcomeContentText':(type==='tos'?'tosContentText':(type==='message'?'messageContentText':'updatesContentText'));
-    document.getElementById(targetId).innerHTML = html;
-    localStorage.setItem(`velune_${type}_title`, title);
-    localStorage.setItem(`velune_${type}_content`, html);
+    document.getElementById(type+'Title').innerText = title; let targetId = type==='welcome'?'welcomeContentText':(type==='tos'?'tosContentText':(type==='message'?'messageContentText':'updatesContentText'));
+    document.getElementById(targetId).innerHTML = html; localStorage.setItem(`velune_${type}_title`, title); localStorage.setItem(`velune_${type}_content`, html);
   } else if(type==='stamp') {
-    const finalStamp = autoConvertDriveLink(imgUrlRaw);
-    document.getElementById('stampImg').src = finalStamp;
-    document.getElementById('stampTitleText').innerText = text;
-    localStorage.setItem('velune_stamp_img', finalStamp);
-    localStorage.setItem('velune_stamp_title', text);
+    const finalStamp = autoConvertDriveLink(imgUrlRaw); document.getElementById('stampImg').src = finalStamp; document.getElementById('stampTitleText').innerText = text; localStorage.setItem('velune_stamp_img', finalStamp); localStorage.setItem('velune_stamp_title', text);
   } else if(type==='contact') {
-    const links = {
-        fb: document.getElementById('link_fb').value.trim(),
-        ig: document.getElementById('link_ig').value.trim(),
-        tt: document.getElementById('link_tt').value.trim(),
-        x: document.getElementById('link_x').value.trim(),
-        vgen: document.getElementById('link_vgen').value.trim()
-    };
-    localStorage.setItem('velune_contact_links', JSON.stringify(links));
-    renderContactLinks();
+    const links = { fb: document.getElementById('link_fb').value.trim(), ig: document.getElementById('link_ig').value.trim(), tt: document.getElementById('link_tt').value.trim(), x: document.getElementById('link_x').value.trim(), vgen: document.getElementById('link_vgen').value.trim() };
+    localStorage.setItem('velune_contact_links', JSON.stringify(links)); renderContactLinks();
   }
   hidePopup('widgetEditorPopup');
 }
 
-// --- ADMIN FUNCTIONS ---
 function openCategoryModal(page){
-  currentModalPage=page;
-  document.getElementById('newCatName').value='';
-  const zone=document.getElementById('deleteCatList');zone.innerHTML='';
-  pageCategories[page].forEach(cat=>{
-    if(cat!=="All")zone.innerHTML+=`<button class="category-btn" style="border-color:#ff5555;color:#ff5555;margin:4px" onclick="deleteCategory('${page}','${cat}')">🗑️ ${cat}</button>`;
-  });
+  currentModalPage=page; document.getElementById('newCatName').value=''; const zone=document.getElementById('deleteCatList'); zone.innerHTML='';
+  pageCategories[page].forEach(cat=>{ if(cat!=="All") zone.innerHTML+=`<button class="category-btn" style="border-color:#ff5555;color:#ff5555;margin:4px" onclick="deleteCategory('${page}','${cat}')">🗑️ ${cat}</button>`; });
   showPopup('categoryModal');
 }
 function addNewCategory(){
-  const name=document.getElementById('newCatName').value.trim();
-  if(!name || pageCategories[currentModalPage].includes(name)) return;
-  pageCategories[currentModalPage].push(name);
-  localStorage.setItem(`velune_cats_${currentModalPage}`,JSON.stringify(pageCategories[currentModalPage]));
-  if(currentModalPage==='character') renderCharCatTabs(); else renderCategoryTabs(currentModalPage);
-  openCategoryModal(currentModalPage);
+  const name=document.getElementById('newCatName').value.trim(); if(!name || pageCategories[currentModalPage].includes(name)) return;
+  pageCategories[currentModalPage].push(name); localStorage.setItem(`velune_cats_${currentModalPage}`,JSON.stringify(pageCategories[currentModalPage]));
+  if(currentModalPage==='character') renderCharCatTabs(); else renderCategoryTabs(currentModalPage); openCategoryModal(currentModalPage);
 }
 function deleteCategory(page,catName){
-  if(!confirm(`ลบหมวดหมู่ "${catName}"?`)) return;
-  pageCategories[page]=pageCategories[page].filter(c=>c!==catName);
-  localStorage.setItem(`velune_cats_${page}`,JSON.stringify(pageCategories[page]));
-  currentActiveTabs[page]="All";
-  if(page==='character'){renderCharCatTabs();renderCharGrid();}else{renderCategoryTabs(page);renderPhotoGrid(page);}
-  openCategoryModal(page);
+  if(!confirm(`ลบหมวดหมู่ "${catName}"?`)) return; pageCategories[page]=pageCategories[page].filter(c=>c!==catName);
+  localStorage.setItem(`velune_cats_${page}`,JSON.stringify(pageCategories[page])); currentActiveTabs[page]="All";
+  if(page==='character'){renderCharCatTabs();renderCharGrid();}else{renderCategoryTabs(page);renderPhotoGrid(page);} openCategoryModal(page);
 }
-
 function openPhotoModal(page){
-  currentModalPage=page; editingPhotoId=null;
-  document.getElementById('photoLinksInput').value='';
-  document.getElementById('photoTitleInput').value='';
-  document.getElementById('photoDescInput').value='';
-  document.getElementById('portfolioLivePreview').src='https://via.placeholder.com/150';
-  document.getElementById('photoTitleGroup').style.display = page==='portfolio' ? 'none' : 'block';
-  buildCatCheckboxes('photoCatCheckboxes',page,[]);
-  document.getElementById('shopPriceField').style.display=(page==='shop' || page==='commission')?'block':'none';
-  document.getElementById('commStatusField').style.display=page==='commission'?'block':'none';
+  currentModalPage=page; editingPhotoId=null; document.getElementById('photoLinksInput').value=''; document.getElementById('photoTitleInput').value='';
+  document.getElementById('photoDescInput').value=''; document.getElementById('portfolioLivePreview').src='https://via.placeholder.com/150';
+  document.getElementById('photoTitleGroup').style.display = page==='portfolio' ? 'none' : 'block'; buildCatCheckboxes('photoCatCheckboxes',page,[]);
+  document.getElementById('shopPriceField').style.display=(page==='shop' || page==='commission')?'block':'none'; document.getElementById('commStatusField').style.display=page==='commission'?'block':'none';
   showPopup('photoModal');
 }
-
 function openEditPhotoModal(page, id) {
-  currentModalPage=page; editingPhotoId=id;
-  const photo = pagePhotos[page].find(p => p.id === id);
-  if(!photo) return;
-  document.getElementById('photoLinksInput').value = [photo.url, ...(photo.gallery || [])].join('\n');
-  document.getElementById('photoTitleInput').value = photo.title || '';
-  document.getElementById('photoDescInput').value = photo.desc || '';
-  document.getElementById('portfolioLivePreview').src = autoConvertDriveLink(photo.url);
-  document.getElementById('photoTitleGroup').style.display = page==='portfolio' ? 'none' : 'block';
-  buildCatCheckboxes('photoCatCheckboxes', page, photo.cats || []);
-  document.getElementById('shopPriceField').style.display=(page==='shop' || page==='commission')?'block':'none';
-  document.getElementById('photoPriceInput').value = photo.price || '';
-  document.getElementById('commStatusField').style.display=page==='commission'?'block':'none';
-  document.getElementById('photoStatusInput').value = photo.status || 'open';
+  currentModalPage=page; editingPhotoId=id; const photo = pagePhotos[page].find(p => p.id === id); if(!photo) return;
+  document.getElementById('photoLinksInput').value = [photo.url, ...(photo.gallery || [])].join('\n'); document.getElementById('photoTitleInput').value = photo.title || '';
+  document.getElementById('photoDescInput').value = photo.desc || ''; document.getElementById('portfolioLivePreview').src = autoConvertDriveLink(photo.url);
+  document.getElementById('photoTitleGroup').style.display = page==='portfolio' ? 'none' : 'block'; buildCatCheckboxes('photoCatCheckboxes', page, photo.cats || []);
+  document.getElementById('shopPriceField').style.display=(page==='shop' || page==='commission')?'block':'none'; document.getElementById('photoPriceInput').value = photo.price || '';
+  document.getElementById('commStatusField').style.display=page==='commission'?'block':'none'; document.getElementById('photoStatusInput').value = photo.status || 'open';
   showPopup('photoModal');
 }
-
 function saveNewPhoto(){
-  const links = document.getElementById('photoLinksInput').value.split('\n').map(u=>u.trim()).filter(Boolean);
-  if(links.length === 0) { alert('กรุณาใส่ลิงก์รูปภาพ!'); return; }
-  const cats = getCheckedCats('photoCatCheckboxes');
-  if(cats.length === 0) { alert('กรุณาเลือกหมวดหมู่!'); return; }
-  
-  const photoData = {
-    id: editingPhotoId || Date.now(), cats: cats,
-    url: autoConvertDriveLink(links[0]),
-    gallery: links.slice(1).map(u => autoConvertDriveLink(u)).filter(Boolean),
-    title: currentModalPage==='portfolio' ? "" : (document.getElementById('photoTitleInput').value.trim() || "Untitled"),
-    desc: currentModalPage==='portfolio' ? "" : document.getElementById('photoDescInput').value.trim(),
-    price: document.getElementById('photoPriceInput').value.trim(),
-    status: document.getElementById('photoStatusInput').value
-  };
-  
-  if(editingPhotoId) {
-    const idx = pagePhotos[currentModalPage].findIndex(p => p.id === editingPhotoId);
-    pagePhotos[currentModalPage][idx] = photoData;
-  } else { pagePhotos[currentModalPage].push(photoData); }
-  
-  localStorage.setItem(`velune_photos_${currentModalPage}`, JSON.stringify(pagePhotos[currentModalPage]));
-  renderPhotoGrid(currentModalPage);
-  hidePopup('photoModal');
+  const links = document.getElementById('photoLinksInput').value.split('\n').map(u=>u.trim()).filter(Boolean); if(links.length === 0) { alert('กรุณาใส่ลิงก์รูปภาพ!'); return; }
+  const cats = getCheckedCats('photoCatCheckboxes'); if(cats.length === 0) { alert('กรุณาเลือกหมวดหมู่!'); return; }
+  const photoData = { id: editingPhotoId || Date.now(), cats: cats, url: autoConvertDriveLink(links[0]), gallery: links.slice(1).map(u => autoConvertDriveLink(u)), title: currentModalPage==='portfolio' ? "" : (document.getElementById('photoTitleInput').value.trim() || "Untitled"), desc: currentModalPage==='portfolio' ? "" : document.getElementById('photoDescInput').value.trim(), price: document.getElementById('photoPriceInput').value.trim(), status: document.getElementById('photoStatusInput').value };
+  if(editingPhotoId) { const idx = pagePhotos[currentModalPage].findIndex(p => p.id === editingPhotoId); pagePhotos[currentModalPage][idx] = photoData; } else { pagePhotos[currentModalPage].push(photoData); }
+  localStorage.setItem(`velune_photos_${currentModalPage}`, JSON.stringify(pagePhotos[currentModalPage])); renderPhotoGrid(currentModalPage); hidePopup('photoModal');
 }
-
-function deletePhoto(page,id){
-  if(!confirm('ลบรูปนี้ใช่ไหม?')) return;
-  pagePhotos[page]=pagePhotos[page].filter(p=>p.id!==id);
-  localStorage.setItem(`velune_photos_${page}`,JSON.stringify(pagePhotos[page]));
-  renderPhotoGrid(page);
-}
-
-function buildCatCheckboxes(containerId,page,selectedCats){
-  const el=document.getElementById(containerId);
-  el.innerHTML=pageCategories[page].filter(cat => cat!=="All").map(cat => 
-    `<label><input type="checkbox" value="${cat}" ${(selectedCats||[]).includes(cat)?'checked':''}> ${cat}</label>`
-  ).join('');
-}
+function deletePhoto(page,id){ if(!confirm('ลบรูปนี้ใช่ไหม?')) return; pagePhotos[page]=pagePhotos[page].filter(p=>p.id!==id); localStorage.setItem(`velune_photos_${page}`,JSON.stringify(pagePhotos[page])); renderPhotoGrid(page); }
+function buildCatCheckboxes(containerId,page,selectedCats){ const el=document.getElementById(containerId); el.innerHTML=pageCategories[page].filter(cat => cat!=="All").map(cat => `<label><input type="checkbox" value="${cat}" ${(selectedCats||[]).includes(cat)?'checked':''}> ${cat}</label>`).join(''); }
 function getCheckedCats(containerId){return Array.from(document.querySelectorAll(`#${containerId} input[type=checkbox]:checked`)).map(c=>c.value);}
-
 function openEditCharField(field){
-  if(!isLoggedIn||!viewingCharId)return;
-  const char=characters.find(c=>c.id===viewingCharId);
-  currentEditField=field;
-  const body=document.getElementById('charEditFieldBody');
-  body.innerHTML='';
-  if(field==='img'){
-    body.innerHTML=`<div class="preview-box"><img id="cpEditImgPreview" src="${autoConvertDriveLink(char.img)}"></div>
-      <input type="text" class="popup-input" id="ef_img" value="${char.img}" oninput="autoConvertDriveLink(this.value,'cpEditImgPreview')">`;
-  }else if(field==='name'){
-    body.innerHTML=`<input class="popup-input" id="ef_name" value="${char.name}">`;
-  }else if(field==='species_header'){
-    body.innerHTML=`<input class="popup-input" id="ef_species_h" value="${char.species}">`;
-  }else if(field==='stats'){
-    body.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div>Birthday:<input class="popup-input" id="ef_birthday" value="${char.birthday||''}"></div>
-      <div>Age:<input class="popup-input" id="ef_age" value="${char.age||''}"></div>
-      <div>Weight:<input class="popup-input" id="ef_weight" value="${char.weight||''}"></div>
-      <div>Height:<input class="popup-input" id="ef_height" value="${char.height||''}"></div>
-      <div>Gender:<input class="popup-input" id="ef_gender" value="${char.gender||''}"></div>
-      <div>Species:<input class="popup-input" id="ef_species" value="${char.species||''}"></div>
-    </div>
-    Tags:<input class="popup-input" id="ef_tags" value="${(char.tags||[]).join(', ')}">
-    <div id="ef_cats" class="cat-checkbox-list"></div>`;
-    buildCatCheckboxes('ef_cats','character',char.cats||[]);
-  }else if(field==='desc'){
-    body.innerHTML=`<textarea class="popup-textarea" id="ef_desc" style="height:120px">${char.desc||''}</textarea>`;
-  }else if(field==='tos'){
-    const tos=char.tos||{rights:'standard',text:'',img:''};
-    body.innerHTML=`
-      <select class="popup-select" id="ef_tosrights">
-        <option value="standard" ${tos.rights==='standard'?'selected':''}>🔵 สิทธิ์ปกติ</option>
-        <option value="commercial" ${tos.rights==='commercial'?'selected':''}>🟠 สิทธิ์เชิงพาณิชย์</option>
-        <option value="exclusive" ${tos.rights==='exclusive'?'selected':''}>🔴 สิทธิ์ขาด</option>
-      </select>
-      <textarea class="popup-textarea" id="ef_tostext" placeholder="ข้อตกลงเพิ่มเติม">${tos.text||''}</textarea>
-      <div class="preview-box"><img id="cpEditTosImgPreview" src="${autoConvertDriveLink(tos.img) || 'https://via.placeholder.com/150'}"></div>
-      <input type="text" class="popup-input" id="ef_tosimg" value="${tos.img||''}" placeholder="ลิงก์รูปภาพ TOS" oninput="autoConvertDriveLink(this.value,'cpEditTosImgPreview')">`;
-  }
+  if(!isLoggedIn||!viewingCharId)return; const char=characters.find(c=>c.id===viewingCharId); currentEditField=field; const body=document.getElementById('charEditFieldBody'); body.innerHTML='';
+  if(field==='img'){ body.innerHTML=`<div class="preview-box"><img id="cpEditImgPreview" src="${autoConvertDriveLink(char.img)}"></div><input type="text" class="popup-input" id="ef_img" value="${char.img}" oninput="autoConvertDriveLink(this.value,'cpEditImgPreview')">`;
+  }else if(field==='name'){ body.innerHTML=`<input class="popup-input" id="ef_name" value="${char.name}">`;
+  }else if(field==='species_header'){ body.innerHTML=`<input class="popup-input" id="ef_species_h" value="${char.species}">`;
+  }else if(field==='stats'){ body.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div>Birthday:<input class="popup-input" id="ef_birthday" value="${char.birthday||''}"></div><div>Age:<input class="popup-input" id="ef_age" value="${char.age||''}"></div><div>Weight:<input class="popup-input" id="ef_weight" value="${char.weight||''}"></div><div>Height:<input class="popup-input" id="ef_height" value="${char.height||''}"></div><div>Gender:<input class="popup-input" id="ef_gender" value="${char.gender||''}"></div><div>Species:<input class="popup-input" id="ef_species" value="${char.species||''}"></div></div>Tags:<input class="popup-input" id="ef_tags" value="${(char.tags||[]).join(', ')}"><div id="ef_cats" class="cat-checkbox-list"></div>`; buildCatCheckboxes('ef_cats','character',char.cats||[]);
+  }else if(field==='desc'){ body.innerHTML=`<textarea class="popup-textarea" id="ef_desc" style="height:120px">${char.desc||''}</textarea>`;
+  }else if(field==='tos'){ const tos=char.tos||{rights:'standard',text:'',img:''}; body.innerHTML=`<select class="popup-select" id="ef_tosrights"><option value="standard" ${tos.rights==='standard'?'selected':''}>🔵 สิทธิ์ปกติ</option><option value="commercial" ${tos.rights==='commercial'?'selected':''}>🟠 สิทธิ์เชิงพาณิชย์</option><option value="exclusive" ${tos.rights==='exclusive'?'selected':''}>🔴 สิทธิ์ขาด</option></select><textarea class="popup-textarea" id="ef_tostext" placeholder="ข้อตกลงเพิ่มเติม">${tos.text||''}</textarea><div class="preview-box"><img id="cpEditTosImgPreview" src="${autoConvertDriveLink(tos.img) || 'https://via.placeholder.com/150'}"></div><input type="text" class="popup-input" id="ef_tosimg" value="${tos.img||''}" placeholder="ลิงก์รูปภาพ TOS" oninput="autoConvertDriveLink(this.value,'cpEditTosImgPreview')">`; }
   showPopup('charEditFieldPopup');
 }
-
 function saveCharEditField(){
   const char=characters.find(c=>c.id===viewingCharId);
-  if(currentEditField==='img') char.img=document.getElementById('ef_img').value;
-  else if(currentEditField==='name') char.name=document.getElementById('ef_name').value.trim();
-  else if(currentEditField==='species_header') char.species=document.getElementById('ef_species_h').value.trim();
-  else if(currentEditField==='stats'){
-    ['birthday','age','weight','height','gender','species'].forEach(k => char[k]=document.getElementById(`ef_${k}`).value);
-    char.tags=document.getElementById('ef_tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-    char.cats=getCheckedCats('ef_cats');
-  }else if(currentEditField==='desc') char.desc=document.getElementById('ef_desc').value;
-  else if(currentEditField==='tos') char.tos={rights:document.getElementById('ef_tosrights').value,text:document.getElementById('ef_tostext').value,img:document.getElementById('ef_tosimg').value};
-  localStorage.setItem('velune_chars',JSON.stringify(characters));
-  hidePopup('charEditFieldPopup'); renderCharGrid(); renderCharProfileContent();
+  if(currentEditField==='img') char.img=document.getElementById('ef_img').value; else if(currentEditField==='name') char.name=document.getElementById('ef_name').value.trim(); else if(currentEditField==='species_header') char.species=document.getElementById('ef_species_h').value.trim(); else if(currentEditField==='stats'){ ['birthday','age','weight','height','gender','species'].forEach(k => char[k]=document.getElementById(`ef_${k}`).value); char.tags=document.getElementById('ef_tags').value.split(',').map(t=>t.trim()).filter(Boolean); char.cats=getCheckedCats('ef_cats'); } else if(currentEditField==='desc') char.desc=document.getElementById('ef_desc').value; else if(currentEditField==='tos') char.tos={rights:document.getElementById('ef_tosrights').value,text:document.getElementById('ef_tostext').value,img:document.getElementById('ef_tosimg').value};
+  localStorage.setItem('velune_chars',JSON.stringify(characters)); hidePopup('charEditFieldPopup'); renderCharGrid(); renderCharProfileContent();
 }
-
 function openCharGalleryAdd(){if(isLoggedIn) showPopup('charGalleryAddPopup');}
-function saveCharGalleryImg(){
-  const url=document.getElementById('charGalleryUrlInput').value.trim();
-  if(!url) return;
-  characters.find(c=>c.id===viewingCharId).gallery.push(url);
-  localStorage.setItem('velune_chars',JSON.stringify(characters));
-  hidePopup('charGalleryAddPopup'); renderCharProfileContent();
-}
-
-function openCharModal(){
-  document.getElementById('charLivePreview').src='https://via.placeholder.com/150';
-  buildCatCheckboxes('charCatCheckboxes','character',[]);
-  showPopup('charModal');
-}
+function saveCharGalleryImg(){ const url=document.getElementById('charGalleryUrlInput').value.trim(); if(!url) return; characters.find(c=>c.id===viewingCharId).gallery.push(url); localStorage.setItem('velune_chars',JSON.stringify(characters)); hidePopup('charGalleryAddPopup'); renderCharProfileContent(); }
+function openCharModal(){ document.getElementById('charLivePreview').src='https://via.placeholder.com/150'; buildCatCheckboxes('charCatCheckboxes','character',[]); showPopup('charModal'); }
 function saveNewChar(){
-  const name=document.getElementById('charNameInput').value.trim();
-  if(!name) return;
-  characters.push({
-    id:Date.now(), img:document.getElementById('charImgInput').value, name:name,
-    species:document.getElementById('charSpeciesInput').value,
-    birthday:document.getElementById('charBirthdayInput').value,
-    age:document.getElementById('charAgeInput').value,
-    gender:document.getElementById('charGenderInput').value,
-    height:document.getElementById('charHeightInput').value,
-    weight:document.getElementById('charWeightInput').value,
-    cats:getCheckedCats('charCatCheckboxes'),
-    tags:document.getElementById('charTagsInput').value.split(',').map(t=>t.trim()).filter(Boolean),
-    desc:document.getElementById('charDescInput').value,
-    tos:{rights:'standard',text:'',img:''},gallery:[]
-  });
-  localStorage.setItem('velune_chars',JSON.stringify(characters));
-  renderCharGrid();hidePopup('charModal');
+  const name=document.getElementById('charNameInput').value.trim(); if(!name) return;
+  characters.push({ id:Date.now(), img:document.getElementById('charImgInput').value, name:name, species:document.getElementById('charSpeciesInput').value, birthday:document.getElementById('charBirthdayInput').value, age:document.getElementById('charAgeInput').value, gender:document.getElementById('charGenderInput').value, height:document.getElementById('charHeightInput').value, weight:document.getElementById('charWeightInput').value, cats:getCheckedCats('charCatCheckboxes'), tags:document.getElementById('charTagsInput').value.split(',').map(t=>t.trim()).filter(Boolean), desc:document.getElementById('charDescInput').value, tos:{rights:'standard',text:'',img:''},gallery:[] });
+  localStorage.setItem('velune_chars',JSON.stringify(characters)); renderCharGrid(); hidePopup('charModal');
 }
-function deleteChar(id){
-  if(confirm('ลบตัวละคร?')){characters=characters.filter(c=>c.id!==id);localStorage.setItem('velune_chars',JSON.stringify(characters));renderCharGrid();}
-}
-
-function openSocialEditor() {
-  const container = document.getElementById('socialInputsContainer');
-  const socials = JSON.parse(localStorage.getItem('velune_socials') || '[]');
-  container.innerHTML = [0,1,2,3,4].map(i => {
-    const s = socials[i] || {name:'', link:''};
-    return `<div style="margin-bottom:12px; border-bottom:1px dashed #4a3556; padding-bottom:8px;">
-      <label class="preview-label">แอปโซเชียลที่ ${i+1}:</label>
-      <input type="text" class="popup-input" placeholder="เช่น facebook" value="${s.name}" id="soc_name_${i}">
-      <label class="preview-label">ลิงก์ปลายทาง:</label>
-      <input type="text" class="popup-input" placeholder="วางลิงก์ที่นี่" value="${s.link}" id="soc_link_${i}">
-    </div>`;
-  }).join('');
-  showPopup('socialEditorPopup');
-}
-function saveSocialData() {
-  let socials = [0,1,2,3,4].map(i => ({name: document.getElementById(`soc_name_${i}`).value.trim(), link: document.getElementById(`soc_link_${i}`).value.trim()})).filter(s => s.name);
-  localStorage.setItem('velune_socials', JSON.stringify(socials));
-  renderHomeSocials(); hidePopup('socialEditorPopup');
-}
+function deleteChar(id){ if(confirm('ลบตัวละคร?')){characters=characters.filter(c=>c.id!==id);localStorage.setItem('velune_chars',JSON.stringify(characters));renderCharGrid();} }
+function openSocialEditor() { const container = document.getElementById('socialInputsContainer'); const socials = JSON.parse(localStorage.getItem('velune_socials') || '[]'); container.innerHTML = [0,1,2,3,4].map(i => { const s = socials[i] || {name:'', link:''}; return `<div style="margin-bottom:12px; border-bottom:1px dashed #4a3556; padding-bottom:8px;"><label class="preview-label">แอปโซเชียลที่ ${i+1}:</label><input type="text" class="popup-input" placeholder="เช่น facebook" value="${s.name}" id="soc_name_${i}"><label class="preview-label">ลิงก์ปลายทาง:</label><input type="text" class="popup-input" placeholder="วางลิงก์ที่นี่" value="${s.link}" id="soc_link_${i}"></div>`; }).join(''); showPopup('socialEditorPopup'); }
+function saveSocialData() { let socials = [0,1,2,3,4].map(i => ({name: document.getElementById(`soc_name_${i}`).value.trim(), link: document.getElementById(`soc_link_${i}`).value.trim()})).filter(s => s.name); localStorage.setItem('velune_socials', JSON.stringify(socials)); renderHomeSocials(); hidePopup('socialEditorPopup'); }
+function updatePhotoModalPreview() { const links = document.getElementById('photoLinksInput').value.split('\n').map(u=>u.trim()).filter(Boolean); const first = links.length > 0 ? autoConvertDriveLink(links[0]) : 'https://via.placeholder.com/150'; document.getElementById('portfolioLivePreview').src = first; }
 </script>
 </body>
 </html>
